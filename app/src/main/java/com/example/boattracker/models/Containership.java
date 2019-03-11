@@ -1,10 +1,10 @@
-package com.example.boattracker;
+package com.example.boattracker.models;
 
-public class ContainerShip {
+public class Containership {
     private String name;
     private String captainName;
 
-    public ContainerShip(String name, String captainName) {
+    public Containership(String name, String captainName) {
         this.name = name;
         this.captainName = captainName;
     }

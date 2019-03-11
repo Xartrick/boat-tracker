@@ -1,4 +1,4 @@
-package com.example.boattracker;
+package com.example.boattracker.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,15 +7,18 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.boattracker.R;
+import com.example.boattracker.models.Containership;
+
 import java.util.List;
 
-public class ContainerShipAdapter extends BaseAdapter {
+public class ContainershipAdapter extends BaseAdapter {
 
     private Context context;
-    private List<ContainerShip> shipList;
+    private List<Containership> shipList;
     private LayoutInflater layoutInflater;
 
-    public ContainerShipAdapter(Context context, List<ContainerShip> shipList) {
+    public ContainershipAdapter(Context context, List<Containership> shipList) {
         this.context = context;
         this.shipList = shipList;
         this.layoutInflater = LayoutInflater.from(context);
@@ -41,7 +44,7 @@ public class ContainerShipAdapter extends BaseAdapter {
 
         convertView = layoutInflater.inflate(R.layout.adapter_containership, null);
 
-        ContainerShip currentShip = (ContainerShip) getItem(position);
+        Containership currentShip = (Containership) getItem(position);
         String shipName = currentShip.getName();
         String shipCaptain = currentShip.getCaptainName();
 
