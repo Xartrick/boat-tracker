@@ -22,14 +22,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ContainershipType type = new ContainershipType("1","Type", 10,10,10);
-        Port port = new Port("1", "Marseille",10,10);
+        ContainershipType type = new ContainershipType("1", "Type", 10, 10, 10);
+        Port port = new Port("1", "Marseille", 10, 10);
 
         final List<Containership> bateaux = new ArrayList<>();
-        bateaux.add(new Containership("1", "Le Poséïdon","Marcel", 0, 0, port, type));
-        bateaux.add(new Containership("2", "Le Zeus","Fred", 0, 0, port, type));
-        bateaux.add(new Containership("3, ""Le Hadès","Jacques", 0, 0, port, type));
-        bateaux.add(new Containership("4", "L'Apollon","Brigitte", 0, 0, port, type));
+        bateaux.add(new Containership("1", "Le Poséïdon", "Marcel", 0, 0, port, type));
+        bateaux.add(new Containership("2", "Le Zeus", "Fred", 0, 0, port, type));
+        bateaux.add(new Containership("3", "Le Hadès", "Jacques", 0, 0, port, type));
+        bateaux.add(new Containership("4", "L'Apollon", "Brigitte", 0, 0, port, type));
 
         ListView shipListView = findViewById(R.id.ship_list_view);
         shipListView.setAdapter(new ContainershipAdapter(this, bateaux));
