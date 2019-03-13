@@ -24,19 +24,67 @@ public class Containership {
         this.containers = new ArrayList<>();
     }
 
-    public void addContainer(Container container){
-        this.containers.add(container);
-    }
-
-    public void removeContainer(Container container){
-        this.containers.remove(container);
-    }
-
     public String getName() {
         return name;
     }
 
     public String getCaptainName() {
         return captainName;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCaptainName(String captainName) {
+        this.captainName = captainName;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Port getPort() {
+        return port;
+    }
+
+    public void setPort(Port port) {
+        this.port = port;
+    }
+
+    public ContainershipType getType() {
+        return type;
+    }
+
+    public void setType(ContainershipType type) {
+        this.type = type;
+    }
+
+    public List<Container> getContainers() {
+        return containers;
+    }
+
+    public void setContainers(List<Container> containers) {
+        this.containers = containers;
     }
 }
