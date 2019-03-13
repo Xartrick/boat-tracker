@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ShipDetail">
+
+    <RelativeLayout
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/ship_detail_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ship name"/>
+
+        <TextView
+            android:id="@+id/ship_detail_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ship Type"
+            android:layout_below="@+id/ship_detail_name"/>
+
+        <Button
+            android:id="@+id/button_calculate_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Calculate distance"
+            android:layout_below="@+id/ship_detail_type"/>
+    </RelativeLayout>
+
+</LinearLayout>

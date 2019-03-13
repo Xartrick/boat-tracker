@@ -1,5 +1,6 @@
 package com.example.boattracker;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -37,7 +38,19 @@ public class MainActivity extends AppCompatActivity {
         shipListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), bateaux.get(position).getName(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), bateaux.get(position).getName(), Toast.LENGTH_SHORT).show();
+
+                Intent ship_detail = new Intent(getApplicationContext(), ShipDetail.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("ship_detail_name", bateaux.get(position).getName());
+                bundle.putString("ship_detail_type", bateaux.get(position).getType().getName());
+                bundle.putDouble("ship_detail_latitude", bateaux.get(position).getLatitude());
+                bundle.putDouble("ship_detail_longitude", bateaux.get(position).getLongitude());
+                bundle.putDouble("ship_detail_port_latitude", bateaux.get(position).getPort().getLatitude());
+                bundle.putDouble("ship_detail_port_longitude", bateaux.get(position).getPort().getLongitude());
+                ship_detail.putExtras(bundle);
+                startActivity(ship_detail);
+                finish();
             }
         });
 
