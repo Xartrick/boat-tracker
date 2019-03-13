@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import com.example.boattracker.adapters.ContainershipAdapter;
 import com.example.boattracker.models.Containership;
+import com.example.boattracker.models.ContainershipType;
+import com.example.boattracker.models.Port;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +22,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ContainershipType conteneur = new ContainershipType("1","Conteneur", 10,10,10);
+        Port marseille = new Port("1", "Marseille",10,10);
+        
         final List<Containership> bateaux = new ArrayList<>();
-        bateaux.add(new Containership("Le Poséïdon","Marcel"));
-        bateaux.add(new Containership("Le Zeus","Fred"));
-        bateaux.add(new Containership("Le Hadès","Jacques"));
-        bateaux.add(new Containership("L'Apollon","Brigitte"));
+        bateaux.add(new Containership("1","Le Poséïdon","Marcel",0,0, marseille, conteneur));
+        bateaux.add(new Containership("2","Le Zeus","Fred",0,0, marseille, conteneur));
+        bateaux.add(new Containership("3","Le Hadès","Jacques",0,0, marseille, conteneur));
+        bateaux.add(new Containership("4","L'Apollon","Brigitte",0,0, marseille, conteneur));
 
         ListView shipListView = findViewById(R.id.ship_list_view);
         shipListView.setAdapter(new ContainershipAdapter(this, bateaux));
