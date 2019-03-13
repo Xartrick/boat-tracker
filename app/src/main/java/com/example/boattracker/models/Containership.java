@@ -9,15 +9,17 @@ public class Containership {
     private String captainName;
     private double latitude;
     private double longitude;
+    private Port port;
     private ContainershipType type;
     private List<Container> containers;
 
-    public Containership(String id, String name, String captainName, double latitude, double longitude, ContainershipType type) {
+    public Containership(String id, String name, String captainName, double latitude, double longitude, Port port, ContainershipType type) {
         this.id = id;
         this.name = name;
         this.captainName = captainName;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.port = port;
         this.type = type;
         this.containers = new ArrayList<>();
     }
