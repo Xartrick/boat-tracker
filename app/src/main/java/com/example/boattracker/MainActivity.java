@@ -24,10 +24,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ContainershipType type = new ContainershipType("1", "Type", 10, 10, 10);
-        Port port = new Port("1", "Marseille", 10, 10);
+        Port port = new Port("1", "Marseille", 43.296482, 5.369780); // Coordonnées réelles de Marseille en degrés
 
         final List<Containership> bateaux = new ArrayList<>();
-        bateaux.add(new Containership("1", "Le Poséïdon", "Marcel", 0, 0, port, type));
+        bateaux.add(new Containership("1", "Le Poséïdon", "Marcel", 43.524910, 5.454140, port, type)); // Coordonnées réelles ... d'Aix-en-Provence en degrés
         bateaux.add(new Containership("2", "Le Zeus", "Fred", 0, 0, port, type));
         bateaux.add(new Containership("3", "Le Hadès", "Jacques", 0, 0, port, type));
         bateaux.add(new Containership("4", "L'Apollon", "Brigitte", 0, 0, port, type));
