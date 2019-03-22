@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.boattracker.models.Containership;
+
 public class ShipDetail extends AppCompatActivity {
 
     private double getDistanceInKmBetweenEarthCoordinates(double lat1, double lon1, double lat2, double lon2){
@@ -34,19 +36,19 @@ public class ShipDetail extends AppCompatActivity {
 
         Intent myIntent = getIntent();
 
-        String ship_detail_name = myIntent.getStringExtra("ship_detail_name");
+        Containership containership = (Containership) myIntent.getSerializableExtra("containership");
+
         TextView ship_detail_name_view = findViewById(R.id.ship_detail_name);
-        ship_detail_name_view.setText(ship_detail_name);
+        ship_detail_name_view.setText(containership.getName());
 
-        String ship_detail_type = myIntent.getStringExtra("ship_detail_type");
         TextView ship_detail_type_view = findViewById(R.id.ship_detail_type);
-        ship_detail_type_view.setText(ship_detail_type);
+        ship_detail_type_view.setText(containership.getType().getName());
 
 
-        final double ship_detail_latitude = myIntent.getDoubleExtra("ship_detail_latitude", 0);
-        final double ship_detail_longitude = myIntent.getDoubleExtra("ship_detail_longitude", 0);
-        final double ship_detail_port_latitude = myIntent.getDoubleExtra("ship_detail_port_latitude", 0);
-        final double ship_detail_port_longitude = myIntent.getDoubleExtra("ship_detail_port_longitude", 0);
+        final double ship_detail_latitude = containership.getLatitude();
+        final double ship_detail_longitude = containership.getLongitude();
+        final double ship_detail_port_latitude = containership.getPort().getLatitude();
+        final double ship_detail_port_longitude = containership.getPort().getLongitude();
 
         Button calculateDistance = findViewById(R.id.button_calculate_distance);
         calculateDistance.setOnClickListener(new View.OnClickListener() {
