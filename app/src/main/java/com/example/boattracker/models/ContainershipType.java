@@ -1,6 +1,8 @@
 package com.example.boattracker.models;
 
-public class ContainershipType {
+import java.io.Serializable;
+
+public class ContainershipType implements Serializable {
     private String id;
     private String name;
     private int length;

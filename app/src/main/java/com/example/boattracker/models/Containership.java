@@ -1,9 +1,10 @@
 package com.example.boattracker.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Containership {
+public class Containership implements Serializable {
     private String id;
     private String name;
     private String captainName;

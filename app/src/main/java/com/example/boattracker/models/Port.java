@@ -1,6 +1,8 @@
 package com.example.boattracker.models;
 
-public class Port {
+import java.io.Serializable;
+
+public class Port implements Serializable {
     private String id;
     private String name;
     private double latitude;
