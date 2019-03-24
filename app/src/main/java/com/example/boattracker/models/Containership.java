@@ -2,13 +2,15 @@ package com.example.boattracker.models;
 
 import com.example.boattracker.documents.BaseDocument;
 import com.example.boattracker.models.traits.HasId;
-import com.example.boattracker.models.traits.HasLocalization;
+import com.example.boattracker.models.traits.HasPosition;
 import com.example.boattracker.models.traits.HasName;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Containership extends BaseDocument implements HasId, HasName, HasLocalization {
+public class Containership
+        extends BaseDocument
+        implements HasId, HasName, HasPosition {
 
     private String captainName;
     private Port port;
@@ -21,7 +23,7 @@ public class Containership extends BaseDocument implements HasId, HasName, HasLo
 
         this.captainName = captainName;
 
-        this.setLocalization(latitude, longitude);
+        this.setPosition(latitude, longitude);
 
         this.port = port;
         this.type = type;

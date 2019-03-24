@@ -1,51 +1,77 @@
 package com.example.boattracker.models.traits;
 
-import android.util.Log;
-
 import com.example.boattracker.documents.IDocument;
 
-public interface HasLocalization extends IDocument {
+public interface HasPosition extends IDocument {
 
     String LATITUDE = "latitude";
     String LONGITUDE = "longitude";
 
+    /**
+     * Get latitude
+     *
+     * @return Latitude
+     */
     default Double getLatitude() {
         final Double latitude = (Double) get(LATITUDE);
 
         return latitude == null ? 0.0 : latitude;
     }
 
+    /**
+     * Set latitude
+     *
+     * @param latitude Latitude
+     */
     default void setLatitude(double latitude) {
         put(LATITUDE, latitude);
     }
 
+    /**
+     * Get longitude
+     *
+     * @return Longitude
+     */
     default Double getLongitude() {
         final Double longitude = (Double) get(LONGITUDE);
 
         return longitude == null ? 0.0 : longitude;
     }
 
+    /**
+     * Set longitude
+     *
+     * @param longitude Longitude
+     */
     default void setLongitude(double longitude) {
         put(LONGITUDE, longitude);
     }
 
-    default void setLocalization(double latitude, double longitude) {
+    /**
+     * Set position (latitude and longitude)
+     *
+     * @param latitude Latitude
+     * @param longitude Longitude
+     */
+    default void setPosition(double latitude, double longitude) {
         this.setLatitude(latitude);
         this.setLongitude(longitude);
     }
 
-    default double getDistance(HasLocalization object) {
+    /**
+     * Get distance (in km) between two positionable objects
+     *
+     * @param object Object to calculate the distance from/to
+     *
+     * @return Distance between the two objects
+     */
+    default double getDistance(HasPosition object) {
         final double R = 6371e3;
 
         final double lat1 = this.getLatitude();
         final double lat2 = object.getLatitude();
         final double lon1 = this.getLongitude();
         final double lon2 = object.getLongitude();
-
-        Log.i("DIST", "Latitude 1 : " + lat1);
-        Log.i("DIST", "Latitude 2 : " + lat2);
-        Log.i("DIST", "Longitude 1 : " + lon1);
-        Log.i("DIST", "Longitude 2 : " + lon2);
 
         final double f1 = Math.toRadians(lat1);
         final double f2 = Math.toRadians(lat2);
