@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShipDetail">
+    tools:context=".ContainershipActivity">
 
     <RelativeLayout
         android:layout_margin="10dp"
@@ -11,24 +11,32 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/ship_detail_name"
+            android:id="@+id/text_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ship name"/>
 
         <TextView
-            android:id="@+id/ship_detail_type"
+            android:id="@+id/text_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ship Type"
-            android:layout_below="@+id/ship_detail_name"/>
+            android:layout_below="@+id/text_name"/>
 
         <Button
-            android:id="@+id/button_calculate_distance"
+            android:id="@+id/button_distance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Calculate distance"
-            android:layout_below="@+id/ship_detail_type"/>
+            android:layout_below="@+id/text_type"/>
+
+        <Button
+            android:id="@+id/button_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show map"
+            android:layout_below="@+id/button_distance"/>
+
     </RelativeLayout>
 
 </LinearLayout>
