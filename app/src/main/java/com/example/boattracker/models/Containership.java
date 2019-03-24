@@ -1,68 +1,39 @@
 package com.example.boattracker.models;
 
-import java.io.Serializable;
+import com.example.boattracker.documents.BaseDocument;
+import com.example.boattracker.models.traits.HasId;
+import com.example.boattracker.models.traits.HasLocalization;
+import com.example.boattracker.models.traits.HasName;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Containership implements Serializable {
-    private String id;
-    private String name;
+public class Containership extends BaseDocument implements HasId, HasName, HasLocalization {
+
     private String captainName;
-    private double latitude;
-    private double longitude;
     private Port port;
     private ContainershipType type;
     private List<Container> containers;
 
     public Containership(String id, String name, String captainName, double latitude, double longitude, Port port, ContainershipType type) {
-        this.id = id;
-        this.name = name;
+        this.setId(id);
+        this.setName(name);
+
         this.captainName = captainName;
-        this.latitude = latitude;
-        this.longitude = longitude;
+
+        this.setLocalization(latitude, longitude);
+
         this.port = port;
         this.type = type;
         this.containers = new ArrayList<>();
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getCaptainName() {
         return captainName;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setCaptainName(String captainName) {
         this.captainName = captainName;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
     }
 
     public Port getPort() {
