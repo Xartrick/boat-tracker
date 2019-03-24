@@ -1,39 +1,15 @@
 package com.example.boattracker.models;
 
-import java.io.Serializable;
+import com.example.boattracker.documents.BaseDocument;
+import com.example.boattracker.models.traits.HasId;
+import com.example.boattracker.models.traits.HasName;
+import com.example.boattracker.models.traits.HasVolume;
 
-public class ContainershipType implements Serializable {
-    private String id;
-    private String name;
-    private int length;
-    private int heigth;
-    private int width;
+public class ContainershipType extends BaseDocument implements HasId, HasName, HasVolume {
 
-    public ContainershipType(String id, String name, int length, int heigth, int width) {
-        this.id = id;
-        this.name = name;
-        this.length = length;
-        this.heigth = heigth;
-        this.width = width;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public int getHeigth() {
-        return heigth;
-    }
-
-    public int getWidth() {
-        return width;
+    public ContainershipType(String id, String name, int length, int height, int width) {
+        this.setId(id);
+        this.setName(name);
+        this.setVolume(length, height, width);
     }
 }
