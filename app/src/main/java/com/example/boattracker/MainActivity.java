@@ -83,15 +83,6 @@ public class MainActivity extends AppCompatActivity {
 
         this.containerships = new ArrayList<>();
 
-        findViewById(R.id.signInButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent sign_in = new Intent(getApplicationContext(), SignInActivity.class);
-                startActivity(sign_in);
-                finish();
-            }
-        });
-
         this.containerships.add(containership1);
         this.containerships.add(containership2);
         this.containerships.add(containership3);
@@ -107,7 +98,13 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("containership", this.containerships.get(position));
 
             startActivity(intent);
+            finish();
+        });
 
+        findViewById(R.id.signInButton).setOnClickListener(v -> {
+            Intent sign_in = new Intent(getApplicationContext(), SignInActivity.class);
+
+            startActivity(sign_in);
             finish();
         });
     }
