@@ -19,14 +19,18 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity android:name=".SignInActivity"></activity>
+
         <activity
             android:name=".ContainershipActivity"
             android:label="@string/title_activity_containership"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
+
         <activity
             android:name=".MapActivity"
             android:label="@string/title_activity_map"
-            android:parentActivityName=".ContainershipActivity"/>
+            android:parentActivityName=".ContainershipActivity" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
