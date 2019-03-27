@@ -40,6 +40,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        findViewById(R.id.signInButton).setOnClickListener(v -> {
+            Intent sign_in = new Intent(getApplicationContext(), SignInActivity.class);
+
+            startActivity(sign_in);
+            finish();
+        });
+
         getData();
     }
 
@@ -98,13 +105,6 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("containership", this.containerships.get(position));
 
             startActivity(intent);
-            finish();
-        });
-
-        findViewById(R.id.signInButton).setOnClickListener(v -> {
-            Intent sign_in = new Intent(getApplicationContext(), SignInActivity.class);
-
-            startActivity(sign_in);
             finish();
         });
     }
