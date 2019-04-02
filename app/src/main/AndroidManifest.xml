@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.boattracker">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.boattracker">
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -7,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ShipModification"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -19,18 +22,15 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".SignInActivity"></activity>
-
+        <activity android:name=".SignInActivity" />
         <activity
             android:name=".ContainershipActivity"
             android:label="@string/title_activity_containership"
             android:parentActivityName=".MainActivity" />
-
         <activity
             android:name=".MapActivity"
             android:label="@string/title_activity_map"
             android:parentActivityName=".ContainershipActivity" />
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,4 +39,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

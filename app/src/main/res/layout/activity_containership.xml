@@ -37,6 +37,13 @@
             android:text="Show map"
             android:layout_below="@+id/button_distance"/>
 
+        <Button
+            android:id="@+id/button_edit_ship"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Ship"
+            android:layout_below="@+id/button_map"/>
+
     </RelativeLayout>
 
 </LinearLayout>

@@ -61,5 +61,16 @@ public class ContainershipActivity extends AppCompatActivity {
 
             finish();
         });
+
+        final Button edit_button = findViewById(R.id.button_edit_ship);
+        edit_button.setOnClickListener(v -> {
+            System.out.println("0");
+            final Intent edit_intent = new Intent(getApplicationContext(), ShipModification.class);
+            edit_intent.putExtra("containership", containership);
+
+            startActivity(edit_intent);
+
+            finish();
+        });
     }
 }
