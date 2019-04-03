@@ -169,8 +169,8 @@ public class Containership
         data.put("captainName", this.getCaptainName());
         data.put("name", this.getName());
         data.put("position", this.getPosition());
-        data.put("port", this.port.getDocumentPath());
-        data.put("type", this.type.getDocumentPath());
+        data.put("port", this.port.getDocumentReference());
+        data.put("type", this.type.getDocumentReference());
 
         return data;
     }
