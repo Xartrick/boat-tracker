@@ -65,7 +65,7 @@ public class ContainershipActivity extends AppCompatActivity {
         final Button edit_button = findViewById(R.id.button_edit_ship);
         edit_button.setOnClickListener(v -> {
             System.out.println("0");
-            final Intent edit_intent = new Intent(getApplicationContext(), ShipModification.class);
+            final Intent edit_intent = new Intent(getApplicationContext(), EditContainershipActivity.class);
             edit_intent.putExtra("containership", containership);
 
             startActivity(edit_intent);
