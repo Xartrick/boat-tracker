@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("containership", this.containerships.get(position));
             Bundle bundle = new Bundle();
             bundle.putSerializable("containershipTypes", (Serializable) this.containershipTypes);
+            bundle.putSerializable("ports", (Serializable) this.ports);
             intent.putExtras(bundle);
             startActivity(intent);
             finish();
