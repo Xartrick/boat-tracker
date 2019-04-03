@@ -1,5 +1,11 @@
 # boat-tracker
 
+## Membres de l'équipe
+* Sirine ACHACHE
+* Nicolas MARTINEZ
+* Emma TARFI
+* Nicolas TROUIN
+
 ## Structure des objets
 ### `Containership`
 * `id`: `int`
