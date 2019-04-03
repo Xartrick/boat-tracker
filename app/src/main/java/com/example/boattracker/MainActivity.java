@@ -1,9 +1,9 @@
 package com.example.boattracker;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.util.Log;
 import android.widget.ListView;
 
@@ -19,6 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -103,7 +104,9 @@ public class MainActivity extends AppCompatActivity {
         shipListView.setOnItemClickListener((parent, view, position, id) -> {
             final Intent intent = new Intent(getApplicationContext(), ContainershipActivity.class);
             intent.putExtra("containership", this.containerships.get(position));
-
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("containershipTypes", (Serializable) this.containershipTypes);
+            intent.putExtras(bundle);
             startActivity(intent);
             finish();
         });

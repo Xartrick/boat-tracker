@@ -8,10 +8,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.boattracker.models.Containership;
+import com.example.boattracker.models.ContainershipType;
+
+import java.io.Serializable;
+import java.util.List;
 
 public class ContainershipActivity extends AppCompatActivity {
 
     private Containership containership;
+    private List<ContainershipType> containershipTypes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,8 @@ public class ContainershipActivity extends AppCompatActivity {
         final Intent intent = getIntent();
 
         this.containership = (Containership) intent.getSerializableExtra("containership");
+        System.out.println(this.containership);
+        this.containershipTypes = (List<ContainershipType>) intent.getExtras().getSerializable("containershipTypes");
     }
 
     private void drawUI() {
@@ -64,12 +71,12 @@ public class ContainershipActivity extends AppCompatActivity {
 
         final Button edit_button = findViewById(R.id.button_edit_ship);
         edit_button.setOnClickListener(v -> {
-            System.out.println("0");
             final Intent edit_intent = new Intent(getApplicationContext(), EditContainershipActivity.class);
             edit_intent.putExtra("containership", containership);
-
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("containershipTypes", (Serializable) this.containershipTypes);
+            edit_intent.putExtras(bundle);
             startActivity(edit_intent);
-
             finish();
         });
     }

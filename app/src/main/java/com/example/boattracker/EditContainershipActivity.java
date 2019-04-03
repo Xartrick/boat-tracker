@@ -6,19 +6,25 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.boattracker.models.Containership;
+import com.example.boattracker.models.ContainershipType;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class EditContainershipActivity extends AppCompatActivity {
 
     private Containership containership;
+    private List<ContainershipType> containershipTypes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +39,7 @@ public class EditContainershipActivity extends AppCompatActivity {
         final Intent intent = getIntent();
 
         this.containership = (Containership) intent.getSerializableExtra("containership");
+        this.containershipTypes = (List<ContainershipType>) intent.getExtras().getSerializable("containershipTypes");
     }
 
     private void drawUI() {
@@ -44,8 +51,17 @@ public class EditContainershipActivity extends AppCompatActivity {
         final TextInputEditText ship_captain_name_input = findViewById(R.id.text_captain_name);
         ship_captain_name_input.setText(containership.getCaptainName());
 
-        final TextInputEditText ship_type_input = findViewById(R.id.text_type);
-        ship_type_input.setText(containership.getType().getName());
+//        final TextInputEditText ship_type_input = findViewById(R.id.text_type);
+//        ship_type_input.setText(containership.getType().getName());
+        Spinner spinner_type = (Spinner) findViewById(R.id.spinner_type);
+        List<String> typeNames = new ArrayList<>();
+        for (int i = 0; i < this.containershipTypes.size(); i++) {
+            typeNames.add(this.containershipTypes.get(i).getName());
+        }
+        ArrayAdapter adapter = new ArrayAdapter(this,
+                android.R.layout.simple_spinner_item, typeNames);
+        spinner_type.setAdapter(adapter);
+
 
         final TextInputEditText ship_latitude_input = findViewById(R.id.text_latitude);
         ship_latitude_input.setText(containership.getLatitude().toString());
