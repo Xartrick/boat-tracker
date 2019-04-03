@@ -65,7 +65,6 @@ public class EditContainershipActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_item, typeNames);
         spinner_type.setAdapter(spinner_type_adapter);
 
-
         final TextInputEditText ship_latitude_input = findViewById(R.id.text_latitude);
         ship_latitude_input.setText(containership.getLatitude().toString());
 
@@ -87,8 +86,8 @@ public class EditContainershipActivity extends AppCompatActivity {
             containership.setCaptainName(ship_captain_name_input.getText().toString());
             containership.setLatitude(Double.parseDouble(ship_latitude_input.getText().toString()));
             containership.setLongitude(Double.parseDouble(ship_longitude_input.getText().toString()));
-            // type
-            // port
+            containership.setType(this.containershipTypes.get(spinner_type.getSelectedItemPosition()));
+            containership.setPort(this.ports.get(spinner_port.getSelectedItemPosition()));
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
