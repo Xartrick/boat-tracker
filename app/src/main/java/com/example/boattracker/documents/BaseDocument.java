@@ -14,11 +14,11 @@ public abstract class BaseDocument implements IDocument, Serializable {
 
     @Override
     public final void put(String key, Object value) {
-        entries.put(key, value);
+        this.entries.put(key, value);
     }
 
     @Override
     public final Object get(String key) {
-        return entries.get(key);
+        return this.entries.get(key);
     }
 }

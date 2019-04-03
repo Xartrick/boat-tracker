@@ -12,4 +12,13 @@ public class ContainershipType extends BaseDocument implements HasId, HasName, H
         this.setName(name);
         this.setVolume(length, height, width);
     }
+
+    /**
+     * Get Firebase document path
+     *
+     * @return Document path
+     */
+    public String getDocumentPath() {
+        return "/containership-types/" + this.getId();
+    }
 }
