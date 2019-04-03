@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.example.boattracker.models.Containership;
 import com.example.boattracker.models.ContainershipType;
+import com.example.boattracker.models.Port;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,6 +18,7 @@ public class ContainershipActivity extends AppCompatActivity {
 
     private Containership containership;
     private List<ContainershipType> containershipTypes;
+    private List<Port> ports;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +33,8 @@ public class ContainershipActivity extends AppCompatActivity {
         final Intent intent = getIntent();
 
         this.containership = (Containership) intent.getSerializableExtra("containership");
-        System.out.println(this.containership);
         this.containershipTypes = (List<ContainershipType>) intent.getExtras().getSerializable("containershipTypes");
+        this.ports = (List<Port>) intent.getExtras().getSerializable("ports");
     }
 
     private void drawUI() {
@@ -75,6 +77,7 @@ public class ContainershipActivity extends AppCompatActivity {
             edit_intent.putExtra("containership", containership);
             Bundle bundle = new Bundle();
             bundle.putSerializable("containershipTypes", (Serializable) this.containershipTypes);
+            bundle.putSerializable("ports", (Serializable) this.ports);
             edit_intent.putExtras(bundle);
             startActivity(edit_intent);
             finish();

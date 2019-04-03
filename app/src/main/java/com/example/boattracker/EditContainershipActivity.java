@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.boattracker.models.Containership;
 import com.example.boattracker.models.ContainershipType;
+import com.example.boattracker.models.Port;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,6 +26,7 @@ public class EditContainershipActivity extends AppCompatActivity {
 
     private Containership containership;
     private List<ContainershipType> containershipTypes;
+    private List<Port> ports;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class EditContainershipActivity extends AppCompatActivity {
 
         this.containership = (Containership) intent.getSerializableExtra("containership");
         this.containershipTypes = (List<ContainershipType>) intent.getExtras().getSerializable("containershipTypes");
+        this.ports = (List<Port>) intent.getExtras().getSerializable("ports");
     }
 
     private void drawUI() {
@@ -58,9 +61,9 @@ public class EditContainershipActivity extends AppCompatActivity {
         for (int i = 0; i < this.containershipTypes.size(); i++) {
             typeNames.add(this.containershipTypes.get(i).getName());
         }
-        ArrayAdapter adapter = new ArrayAdapter(this,
+        ArrayAdapter spinner_type_adapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, typeNames);
-        spinner_type.setAdapter(adapter);
+        spinner_type.setAdapter(spinner_type_adapter);
 
 
         final TextInputEditText ship_latitude_input = findViewById(R.id.text_latitude);
@@ -69,8 +72,14 @@ public class EditContainershipActivity extends AppCompatActivity {
         final TextInputEditText ship_longitude_input = findViewById(R.id.text_longitude);
         ship_longitude_input.setText(containership.getLongitude().toString());
 
-        final TextInputEditText ship_port_input = findViewById(R.id.text_port);
-        ship_port_input.setText(containership.getPort().getName());
+        Spinner spinner_port = (Spinner) findViewById(R.id.spinner_port);
+        List<String> portNames = new ArrayList<>();
+        for (int i = 0; i < this.ports.size(); i++) {
+            portNames.add(this.ports.get(i).getName());
+        }
+        ArrayAdapter spinner_port_adapter = new ArrayAdapter(this,
+                android.R.layout.simple_spinner_item, portNames);
+        spinner_port.setAdapter(spinner_port_adapter);
 
         final Button button_save_changes = findViewById(R.id.button_save);
         button_save_changes.setOnClickListener(v -> {
