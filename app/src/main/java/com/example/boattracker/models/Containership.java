@@ -6,7 +6,9 @@ import com.example.boattracker.models.traits.HasPosition;
 import com.example.boattracker.models.traits.HasName;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Containership
         extends BaseDocument
@@ -159,5 +161,26 @@ public class Containership
 
     public boolean isContainershipCloseEnough(Containership containership) {
         return this.getDistance(containership) <= 300;
+    }
+
+    public Map<String, Object> getData() {
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("captainName", this.getCaptainName());
+        data.put("name", this.getName());
+        data.put("position", this.getPosition());
+        data.put("port", this.port.getDocumentReference());
+        data.put("type", this.type.getDocumentReference());
+
+        return data;
+    }
+
+    /**
+     * Get Firebase document path
+     *
+     * @return Document path
+     */
+    public String getDocumentPath() {
+        return "/containerships/" + this.getId();
     }
 }

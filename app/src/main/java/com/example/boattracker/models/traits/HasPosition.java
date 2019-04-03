@@ -1,11 +1,23 @@
 package com.example.boattracker.models.traits;
 
 import com.example.boattracker.documents.IDocument;
+import com.example.boattracker.models.Position;
+import com.google.firebase.firestore.GeoPoint;
 
 public interface HasPosition extends IDocument {
 
-    String LATITUDE = "latitude";
-    String LONGITUDE = "longitude";
+    String POSITION = "position";
+
+    /**
+     * Get position
+     *
+     * @return Geo
+     */
+    default GeoPoint getPosition() {
+        final Position p = (Position) get(POSITION);
+
+        return p == null ? new GeoPoint(0, 0) : new GeoPoint(p.getLatitude(), p.getLongitude());
+    }
 
     /**
      * Get latitude
@@ -13,9 +25,7 @@ public interface HasPosition extends IDocument {
      * @return Latitude
      */
     default Double getLatitude() {
-        final Double latitude = (Double) get(LATITUDE);
-
-        return latitude == null ? 0.0 : latitude;
+        return this.getPosition().getLatitude();
     }
 
     /**
@@ -24,7 +34,9 @@ public interface HasPosition extends IDocument {
      * @param latitude Latitude
      */
     default void setLatitude(double latitude) {
-        put(LATITUDE, latitude);
+        GeoPoint position = this.getPosition();
+
+        this.setPosition(latitude, position.getLongitude());
     }
 
     /**
@@ -33,9 +45,7 @@ public interface HasPosition extends IDocument {
      * @return Longitude
      */
     default Double getLongitude() {
-        final Double longitude = (Double) get(LONGITUDE);
-
-        return longitude == null ? 0.0 : longitude;
+        return this.getPosition().getLongitude();
     }
 
     /**
@@ -44,7 +54,9 @@ public interface HasPosition extends IDocument {
      * @param longitude Longitude
      */
     default void setLongitude(double longitude) {
-        put(LONGITUDE, longitude);
+        GeoPoint position = this.getPosition();
+
+        this.setPosition(position.getLatitude(), longitude);
     }
 
     /**
@@ -54,8 +66,9 @@ public interface HasPosition extends IDocument {
      * @param longitude Longitude
      */
     default void setPosition(double latitude, double longitude) {
-        this.setLatitude(latitude);
-        this.setLongitude(longitude);
+        final Position position = new Position(latitude, longitude);
+
+        this.put(POSITION, position);
     }
 
     /**

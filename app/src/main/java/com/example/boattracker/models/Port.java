@@ -12,4 +12,13 @@ public class Port extends BaseDocument implements HasId, HasName, HasPosition {
         this.setName(name);
         this.setPosition(latitude, longitude);
     }
+
+    /**
+     * Get Firebase document path
+     *
+     * @return Document path
+     */
+    public String getDocumentPath() {
+        return "/ports/" + this.getId();
+    }
 }

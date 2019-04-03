@@ -10,4 +10,13 @@ public class Container extends BaseDocument implements HasId, HasVolume {
         this.setId(id);
         this.setVolume(length, height, width);
     }
+
+    /**
+     * Get Firebase document path
+     *
+     * @return Document path
+     */
+    public String getDocumentPath() {
+        return "/containers/" + this.getId();
+    }
 }
