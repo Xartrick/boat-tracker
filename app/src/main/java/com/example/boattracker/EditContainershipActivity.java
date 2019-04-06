@@ -7,13 +7,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.boattracker.models.Containership;
 import com.example.boattracker.models.ContainershipType;
 import com.example.boattracker.models.Port;
+import com.example.boattracker.store.ContainershipStore;
 import com.example.boattracker.store.ContainershipTypeStore;
 import com.example.boattracker.store.PortStore;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -38,7 +38,10 @@ public class EditContainershipActivity extends AppCompatActivity {
     private void parseIntent() {
         final Intent intent = getIntent();
 
-        this.containership = (Containership) intent.getSerializableExtra("containership");
+        final String containership_id = intent.getStringExtra("containership_id");
+
+        // this.containership = (Containership) intent.getSerializableExtra("containership");
+        this.containership = ContainershipStore.get(containership_id);
     }
 
     private void drawUI() {
@@ -77,11 +80,13 @@ public class EditContainershipActivity extends AppCompatActivity {
         spinner_port.setAdapter(spinner_port_adapter);
     }
 
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_containership_edit, menu);
         return true;
     }
 
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_containership_edit_save:
@@ -118,13 +123,29 @@ public class EditContainershipActivity extends AppCompatActivity {
 
             case R.id.action_containership_edit_containers:
                 final Intent intent = new Intent(getApplicationContext(), EditContainersActivity.class);
-                intent.putExtra("containership", containership);
+                intent.putExtras(getIntent());
 
                 startActivity(intent);
+                finish();
 
                 return true;
+
+            case android.R.id.home: {
+                onBackPressed();
+
+                break;
+            }
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, ContainershipActivity.class);
+        intent.putExtras(getIntent());
+
+        startActivity(intent);
+        finish();
     }
 }

@@ -3,9 +3,11 @@ package com.example.boattracker;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.example.boattracker.models.Containership;
 import com.example.boattracker.models.Port;
+import com.example.boattracker.store.ContainershipStore;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -67,6 +69,31 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private void parseIntent() {
         final Intent intent = getIntent();
 
-        this.containership = (Containership) intent.getSerializableExtra("containership");
+        final String containership_id = intent.getStringExtra("containership_id");
+
+        // this.containership = (Containership) intent.getSerializableExtra("containership");
+        this.containership = ContainershipStore.get(containership_id);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                onBackPressed();
+
+                break;
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, ContainershipActivity.class);
+        intent.putExtras(getIntent());
+
+        startActivity(intent);
+        finish();
     }
 }
