@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:menu="@menu/menu_main"
-    tools:context=".MainActivity">
+    tools:context=".EditContainersActivity"
+    tools:menu="@menu/menu_containership_edit">
 
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp">
+        android:padding="10dp" >
 
         <ListView
-            android:id="@+id/ship_list_view"
+            android:id="@+id/container_list_view"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </RelativeLayout>
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

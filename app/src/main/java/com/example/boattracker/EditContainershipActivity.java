@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -27,7 +29,7 @@ public class EditContainershipActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ship_modification);
+        setContentView(R.layout.activity_containership_edit);
 
         parseIntent();
         drawUI();
@@ -73,35 +75,56 @@ public class EditContainershipActivity extends AppCompatActivity {
         ArrayAdapter spinner_port_adapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, portNames);
         spinner_port.setAdapter(spinner_port_adapter);
+    }
 
-        final Button button_save_changes = findViewById(R.id.button_save);
-        button_save_changes.setOnClickListener(v -> {
-            containership.setName(ship_name_input.getText().toString());
-            containership.setCaptainName(ship_captain_name_input.getText().toString());
-            containership.setLatitude(Double.parseDouble(ship_latitude_input.getText().toString()));
-            containership.setLongitude(Double.parseDouble(ship_longitude_input.getText().toString()));
-            containership.setType(containership_types.get(spinner_type.getSelectedItemPosition()));
-            containership.setPort(ports.get(spinner_port.getSelectedItemPosition()));
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_containership_edit, menu);
+        return true;
+    }
 
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_containership_edit_save:
+                final TextInputEditText input_name = findViewById(R.id.text_name);
+                final TextInputEditText input_captain_name = findViewById(R.id.text_captain_name);
+                final Spinner input_type = findViewById(R.id.spinner_type);
+                final Spinner input_port = findViewById(R.id.spinner_port);
+                final TextInputEditText input_latitude = findViewById(R.id.text_latitude);
+                final TextInputEditText input_longititude = findViewById(R.id.text_longitude);
 
-            final Map<String, Object> data = containership.getData();
+                containership.setName(input_name.getText().toString());
+                containership.setCaptainName(input_captain_name.getText().toString());
+                containership.setLatitude(Double.parseDouble(input_latitude.getText().toString()));
+                containership.setLongitude(Double.parseDouble(input_longititude.getText().toString()));
+                containership.setType(ContainershipTypeStore.all().get(input_type.getSelectedItemPosition()));
+                containership.setPort(PortStore.all().get(input_port.getSelectedItemPosition()));
 
-            db
-                .collection("containerships")
-                .document(containership.getId())
-                .update(data)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
-                });
-        });
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        final Button button_edit_containers = findViewById(R.id.button_edit_containers);
-        button_edit_containers.setOnClickListener(v -> {
+                final Map<String, Object> data = containership.getData();
 
-        });
+                db
+                    .collection("containerships")
+                    .document(containership.getId())
+                    .update(data)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+                    });
+
+                return true;
+
+            case R.id.action_containership_edit_containers:
+                final Intent intent = new Intent(getApplicationContext(), EditContainersActivity.class);
+                intent.putExtra("containership", containership);
+
+                startActivity(intent);
+
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -8,9 +8,19 @@ public class Container extends BaseDocument implements HasId, HasVolume {
 
     public static String COLLECTION_NAME = "containers";
 
+    private Containership containership;
+
     public Container(String id, int length, int height, int width) {
         this.setId(id);
         this.setVolume(length, height, width);
+    }
+
+    public Containership getContainership() {
+        return this.containership;
+    }
+
+    public void setContainership(Containership containership) {
+        this.containership = containership;
     }
 
     /**
