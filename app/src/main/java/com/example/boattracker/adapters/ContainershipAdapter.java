@@ -15,23 +15,23 @@ import java.util.List;
 public class ContainershipAdapter extends BaseAdapter {
 
     private Context context;
-    private List<Containership> shipList;
+    private List<Containership> containerships;
     private LayoutInflater layoutInflater;
 
-    public ContainershipAdapter(Context context, List<Containership> shipList) {
+    public ContainershipAdapter(Context context, List<Containership> containerships) {
         this.context = context;
-        this.shipList = shipList;
+        this.containerships = containerships;
         this.layoutInflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return shipList.size();
+        return containerships.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return shipList.get(position);
+        return containerships.get(position);
     }
 
     @Override
@@ -55,8 +55,7 @@ public class ContainershipAdapter extends BaseAdapter {
         shipCaptainView.setText(shipCaptain);
 
         TextView numberView = convertView.findViewById(R.id.ship_number);
-        Integer pos = position;
-        numberView.setText(pos.toString());
+        numberView.setText(position);
 
         return convertView;
     }
