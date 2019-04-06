@@ -14,6 +14,8 @@ public class Containership
         extends BaseDocument
         implements HasId, HasName, HasPosition {
 
+    public static String COLLECTION_NAME = "containerships";
+
     private String captainName;
     private Port port;
     private ContainershipType type;
@@ -181,6 +183,15 @@ public class Containership
      * @return Document path
      */
     public String getDocumentPath() {
-        return "/containerships/" + this.getId();
+        return getDocumentPath(this.getId());
+    }
+
+    /**
+     * Get Firebase document path
+     *
+     * @return Document path
+     */
+    public static String getDocumentPath(String id) {
+        return "/" + COLLECTION_NAME + "/" + id;
     }
 }

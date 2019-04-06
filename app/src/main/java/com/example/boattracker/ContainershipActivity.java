@@ -8,17 +8,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.boattracker.models.Containership;
-import com.example.boattracker.models.ContainershipType;
-import com.example.boattracker.models.Port;
-
-import java.io.Serializable;
-import java.util.List;
 
 public class ContainershipActivity extends AppCompatActivity {
 
     private Containership containership;
-    private List<ContainershipType> containershipTypes;
-    private List<Port> ports;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +26,6 @@ public class ContainershipActivity extends AppCompatActivity {
         final Intent intent = getIntent();
 
         this.containership = (Containership) intent.getSerializableExtra("containership");
-        this.containershipTypes = (List<ContainershipType>) intent.getExtras().getSerializable("containershipTypes");
-        this.ports = (List<Port>) intent.getExtras().getSerializable("ports");
     }
 
     private void drawUI() {
@@ -67,20 +58,14 @@ public class ContainershipActivity extends AppCompatActivity {
             map_intent.putExtra("containership", containership);
 
             startActivity(map_intent);
-
-            finish();
         });
 
         final Button edit_button = findViewById(R.id.button_edit_ship);
         edit_button.setOnClickListener(v -> {
             final Intent edit_intent = new Intent(getApplicationContext(), EditContainershipActivity.class);
             edit_intent.putExtra("containership", containership);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("containershipTypes", (Serializable) this.containershipTypes);
-            bundle.putSerializable("ports", (Serializable) this.ports);
-            edit_intent.putExtras(bundle);
+
             startActivity(edit_intent);
-            finish();
         });
     }
 }

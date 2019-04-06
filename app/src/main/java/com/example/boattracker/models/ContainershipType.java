@@ -7,6 +7,8 @@ import com.example.boattracker.models.traits.HasVolume;
 
 public class ContainershipType extends BaseDocument implements HasId, HasName, HasVolume {
 
+    public static String COLLECTION_NAME = "containership-types";
+
     public ContainershipType(String id, String name, int length, int height, int width) {
         this.setId(id);
         this.setName(name);
@@ -19,6 +21,15 @@ public class ContainershipType extends BaseDocument implements HasId, HasName, H
      * @return Document path
      */
     public String getDocumentPath() {
-        return "/containership-types/" + this.getId();
+        return getDocumentPath(this.getId());
+    }
+
+    /**
+     * Get Firebase document path
+     *
+     * @return Document path
+     */
+    public static String getDocumentPath(String id) {
+        return "/" + COLLECTION_NAME + "/" + id;
     }
 }

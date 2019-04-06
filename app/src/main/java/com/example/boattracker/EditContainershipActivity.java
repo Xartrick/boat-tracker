@@ -1,11 +1,9 @@
 package com.example.boattracker;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -14,8 +12,8 @@ import android.widget.Toast;
 import com.example.boattracker.models.Containership;
 import com.example.boattracker.models.ContainershipType;
 import com.example.boattracker.models.Port;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.boattracker.store.ContainershipTypeStore;
+import com.example.boattracker.store.PortStore;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -25,8 +23,6 @@ import java.util.Map;
 public class EditContainershipActivity extends AppCompatActivity {
 
     private Containership containership;
-    private List<ContainershipType> containershipTypes;
-    private List<Port> ports;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +37,6 @@ public class EditContainershipActivity extends AppCompatActivity {
         final Intent intent = getIntent();
 
         this.containership = (Containership) intent.getSerializableExtra("containership");
-        this.containershipTypes = (List<ContainershipType>) intent.getExtras().getSerializable("containershipTypes");
-        this.ports = (List<Port>) intent.getExtras().getSerializable("ports");
     }
 
     private void drawUI() {
@@ -54,12 +48,11 @@ public class EditContainershipActivity extends AppCompatActivity {
         final TextInputEditText ship_captain_name_input = findViewById(R.id.text_captain_name);
         ship_captain_name_input.setText(containership.getCaptainName());
 
-//        final TextInputEditText ship_type_input = findViewById(R.id.text_type);
-//        ship_type_input.setText(containership.getType().getName());
-        Spinner spinner_type = (Spinner) findViewById(R.id.spinner_type);
+        Spinner spinner_type = findViewById(R.id.spinner_type);
         List<String> typeNames = new ArrayList<>();
-        for (int i = 0; i < this.containershipTypes.size(); i++) {
-            typeNames.add(this.containershipTypes.get(i).getName());
+        final List<ContainershipType> containership_types = ContainershipTypeStore.all();
+        for (int i = 0; i < containership_types.size(); i++) {
+            typeNames.add(containership_types.get(i).getName());
         }
         ArrayAdapter spinner_type_adapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, typeNames);
@@ -71,10 +64,11 @@ public class EditContainershipActivity extends AppCompatActivity {
         final TextInputEditText ship_longitude_input = findViewById(R.id.text_longitude);
         ship_longitude_input.setText(containership.getLongitude().toString());
 
-        Spinner spinner_port = (Spinner) findViewById(R.id.spinner_port);
+        Spinner spinner_port = findViewById(R.id.spinner_port);
         List<String> portNames = new ArrayList<>();
-        for (int i = 0; i < this.ports.size(); i++) {
-            portNames.add(this.ports.get(i).getName());
+        final List<Port> ports = PortStore.all();
+        for (int i = 0; i < ports.size(); i++) {
+            portNames.add(ports.get(i).getName());
         }
         ArrayAdapter spinner_port_adapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, portNames);
@@ -86,8 +80,8 @@ public class EditContainershipActivity extends AppCompatActivity {
             containership.setCaptainName(ship_captain_name_input.getText().toString());
             containership.setLatitude(Double.parseDouble(ship_latitude_input.getText().toString()));
             containership.setLongitude(Double.parseDouble(ship_longitude_input.getText().toString()));
-            containership.setType(this.containershipTypes.get(spinner_type.getSelectedItemPosition()));
-            containership.setPort(this.ports.get(spinner_port.getSelectedItemPosition()));
+            containership.setType(containership_types.get(spinner_type.getSelectedItemPosition()));
+            containership.setPort(ports.get(spinner_port.getSelectedItemPosition()));
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
