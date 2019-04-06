@@ -9,6 +9,7 @@ import android.widget.ListView;
 
 import com.crashlytics.android.Crashlytics;
 import com.example.boattracker.adapters.ContainershipAdapter;
+import com.example.boattracker.models.Containership;
 import com.example.boattracker.store.ContainerStore;
 import com.example.boattracker.store.ContainershipStore;
 import com.example.boattracker.store.ContainershipTypeStore;
@@ -67,8 +68,11 @@ public class MainActivity extends AppCompatActivity {
         shipListView.setAdapter(new ContainershipAdapter(this, ContainershipStore.all()));
 
         shipListView.setOnItemClickListener((parent, view, position, id) -> {
+            final Containership containership = ContainershipStore.all().get(position);
+
             final Intent intent = new Intent(getApplicationContext(), ContainershipActivity.class);
-            intent.putExtra("containership", ContainershipStore.all().get(position));
+            //intent.putExtra("containership", containership);
+            intent.putExtra("containership_id", containership.getId());
 
             startActivity(intent);
         });

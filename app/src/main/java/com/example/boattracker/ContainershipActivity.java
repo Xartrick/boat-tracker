@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.boattracker.models.Containership;
+import com.example.boattracker.store.ContainershipStore;
 
 public class ContainershipActivity extends AppCompatActivity {
 
@@ -26,7 +27,10 @@ public class ContainershipActivity extends AppCompatActivity {
     private void parseIntent() {
         final Intent intent = getIntent();
 
-        this.containership = (Containership) intent.getSerializableExtra("containership");
+        final String containership_id = intent.getStringExtra("containership_id");
+
+        // this.containership = (Containership) intent.getSerializableExtra("containership");
+        this.containership = ContainershipStore.get(containership_id);
     }
 
     private void drawUI() {
@@ -57,9 +61,10 @@ public class ContainershipActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_containership_edit:
                 final Intent intentEdit = new Intent(getApplicationContext(), EditContainershipActivity.class);
-                intentEdit.putExtra("containership", containership);
+                intentEdit.putExtras(getIntent());
 
                 startActivity(intentEdit);
+                finish();
 
                 return true;
 
@@ -80,9 +85,10 @@ public class ContainershipActivity extends AppCompatActivity {
 
             case R.id.action_containership_map:
                 final Intent intentMap = new Intent(getApplicationContext(), MapActivity.class);
-                intentMap.putExtra("containership", containership);
+                intentMap.putExtras(getIntent());
 
                 startActivity(intentMap);
+                finish();
 
                 return true;
         }
