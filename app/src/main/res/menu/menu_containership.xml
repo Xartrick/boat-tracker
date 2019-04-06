@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_containership_edit"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="@string/action_refresh"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_containership_distance"
+        android:title="@string/action_containership_distance"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_containership_map"
+        android:title="@string/action_containership_map"
+        app:showAsAction="never" />
+
+</menu>

@@ -44,18 +44,13 @@ public class ContainershipAdapter extends BaseAdapter {
 
         convertView = layoutInflater.inflate(R.layout.adapter_containership, null);
 
-        Containership currentShip = (Containership) getItem(position);
-        String shipName = currentShip.getName();
-        String shipCaptain = currentShip.getCaptainName();
+        Containership containership = (Containership) getItem(position);
 
-        TextView shipNameView = convertView.findViewById(R.id.ship_name);
-        shipNameView.setText(shipName);
+        TextView shipNameView = convertView.findViewById(R.id.containership_name);
+        shipNameView.setText(containership.getName());
 
-        TextView shipCaptainView = convertView.findViewById(R.id.ship_captain);
-        shipCaptainView.setText(shipCaptain);
-
-        TextView numberView = convertView.findViewById(R.id.ship_number);
-        numberView.setText(position);
+        TextView shipCaptainView = convertView.findViewById(R.id.containership_type_name);
+        shipCaptainView.setText(containership.getType().getName());
 
         return convertView;
     }

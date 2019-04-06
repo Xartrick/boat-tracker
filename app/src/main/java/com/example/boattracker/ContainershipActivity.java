@@ -3,7 +3,8 @@ package com.example.boattracker;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,41 +32,61 @@ public class ContainershipActivity extends AppCompatActivity {
     private void drawUI() {
         final Containership containership = this.containership;
 
-        final TextView ship_detail_name_view = findViewById(R.id.text_name);
-        ship_detail_name_view.setText(containership.getName());
+        final TextView name_text_view = findViewById(R.id.text_name);
+        name_text_view.setText(containership.getName());
 
-        final TextView ship_detail_type_view = findViewById(R.id.text_type);
-        ship_detail_type_view.setText(containership.getType().getName());
+        final TextView captain_name_text_view = findViewById(R.id.text_captain_name);
+        captain_name_text_view.setText(containership.getCaptainName());
 
-        final Button distance_button = findViewById(R.id.button_distance);
-        distance_button.setOnClickListener(v -> {
-            final double distance = containership.getDistance(containership.getPort());
+        final TextView type_text_view = findViewById(R.id.text_type);
+        type_text_view.setText(containership.getType().getName());
 
-            String distanceToDisplay;
+        final TextView port_text_view = findViewById(R.id.text_port);
+        port_text_view.setText(containership.getPort().getName());
 
-            if (distance >= 1000){
-                distanceToDisplay = "Distance : " + Math.round(distance / 1000) + " km";
-            } else {
-                distanceToDisplay = "Distance : " + distance + " m";
-            }
+        final TextView containers_text_view = findViewById(R.id.text_containers);
+        containers_text_view.setText(containership.getContainers().size() + " containers");
+    }
 
-            Toast.makeText(getApplicationContext(), distanceToDisplay, Toast.LENGTH_SHORT).show();
-        });
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_containership, menu);
+        return true;
+    }
 
-        final Button map_button = findViewById(R.id.button_map);
-        map_button.setOnClickListener(v -> {
-            final Intent map_intent = new Intent(getApplicationContext(), MapActivity.class);
-            map_intent.putExtra("containership", containership);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_containership_edit:
+                final Intent intentEdit = new Intent(getApplicationContext(), EditContainershipActivity.class);
+                intentEdit.putExtra("containership", containership);
 
-            startActivity(map_intent);
-        });
+                startActivity(intentEdit);
 
-        final Button edit_button = findViewById(R.id.button_edit_ship);
-        edit_button.setOnClickListener(v -> {
-            final Intent edit_intent = new Intent(getApplicationContext(), EditContainershipActivity.class);
-            edit_intent.putExtra("containership", containership);
+                return true;
 
-            startActivity(edit_intent);
-        });
+            case R.id.action_containership_distance:
+                final double distance = containership.getDistance(containership.getPort());
+
+                String distanceToDisplay;
+
+                if (distance >= 1000){
+                    distanceToDisplay = "Distance : " + Math.round(distance / 1000) + " km";
+                } else {
+                    distanceToDisplay = "Distance : " + distance + " m";
+                }
+
+                Toast.makeText(getApplicationContext(), distanceToDisplay, Toast.LENGTH_SHORT).show();
+
+                return true;
+
+            case R.id.action_containership_map:
+                final Intent intentMap = new Intent(getApplicationContext(), MapActivity.class);
+                intentMap.putExtra("containership", containership);
+
+                startActivity(intentMap);
+
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -4,6 +4,7 @@ import com.example.boattracker.documents.BaseDocument;
 import com.example.boattracker.models.traits.HasId;
 import com.example.boattracker.models.traits.HasPosition;
 import com.example.boattracker.models.traits.HasName;
+import com.example.boattracker.store.ContainerStore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +20,6 @@ public class Containership
     private String captainName;
     private Port port;
     private ContainershipType type;
-    private List<Container> containers;
 
     public Containership(String id, String name, String captainName, double latitude, double longitude, Port port, ContainershipType type) {
         this.setId(id);
@@ -31,39 +31,6 @@ public class Containership
 
         this.port = port;
         this.type = type;
-        this.containers = new ArrayList<>();
-    }
-
-    public String getCaptainName() {
-        return captainName;
-    }
-
-    public void setCaptainName(String captainName) {
-        this.captainName = captainName;
-    }
-
-    public Port getPort() {
-        return port;
-    }
-
-    public void setPort(Port port) {
-        this.port = port;
-    }
-
-    public ContainershipType getType() {
-        return type;
-    }
-
-    public void setType(ContainershipType type) {
-        this.type = type;
-    }
-
-    public List<Container> getContainers() {
-        return this.containers;
-    }
-
-    public void setContainers(List<Container> containers) {
-        this.containers = containers;
     }
 
     /**
@@ -81,7 +48,7 @@ public class Containership
             return false;
         }
 
-        this.containers.add(container);
+        container.setContainership(this);
 
         return true;
     }
@@ -102,27 +69,7 @@ public class Containership
             return false;
         }
 
-        if (!this.addContainer(container)) {
-            return false;
-        }
-
-        return containership.removeContainer(container);
-    }
-
-    /**
-     * Remove a Container
-     *
-     * @param container Container
-     * @return True if Container has been removed, false otherwise
-     */
-    public boolean removeContainer(Container container) {
-        if (!this.hasContainer(container)) {
-            return false;
-        }
-
-        this.containers.remove(container);
-
-        return true;
+        return this.addContainer(container);
     }
 
     /**
@@ -133,7 +80,13 @@ public class Containership
     public boolean hasContainer(Container container) {
         final List<Container> containers = this.getContainers();
 
-        return containers.contains(container);
+        for (Container c : containers) {
+            if (c.getId().equals(container.getId())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -175,6 +128,47 @@ public class Containership
         data.put("type", this.type.getDocumentReference());
 
         return data;
+    }
+
+    /*
+     * Getters and setters
+     */
+
+    public String getCaptainName() {
+        return captainName;
+    }
+
+    public void setCaptainName(String captainName) {
+        this.captainName = captainName;
+    }
+
+    public Port getPort() {
+        return port;
+    }
+
+    public void setPort(Port port) {
+        this.port = port;
+    }
+
+    public ContainershipType getType() {
+        return type;
+    }
+
+    public void setType(ContainershipType type) {
+        this.type = type;
+    }
+
+    public List<Container> getContainers() {
+        final List<Container> containers = new ArrayList<>();
+        final List<Container> containership_containers = ContainerStore.all();
+
+        for (Container container : containership_containers) {
+            if (container.getContainership().getId().equals(this.getId())) {
+                containers.add(container);
+            }
+        }
+
+        return containers;
     }
 
     /**

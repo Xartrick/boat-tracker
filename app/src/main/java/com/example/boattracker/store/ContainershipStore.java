@@ -66,9 +66,9 @@ public class ContainershipStore {
         final GeoPoint position = document.getGeoPoint("position");
 
         final DocumentReference port_reference = document.getDocumentReference("port");
-        final DocumentReference containership_type_reference = document.getDocumentReference("type");
-
         final Port port = PortStore.get(Objects.requireNonNull(port_reference).getId());
+
+        final DocumentReference containership_type_reference = document.getDocumentReference("type");
         final ContainershipType type = ContainershipTypeStore.get(Objects.requireNonNull(containership_type_reference).getId());
 
         Containership containership = new Containership(
