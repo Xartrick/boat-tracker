@@ -7,6 +7,8 @@ import com.example.boattracker.models.traits.HasName;
 
 public class Port extends BaseDocument implements HasId, HasName, HasPosition {
 
+    public static String COLLECTION_NAME = "ports";
+
     public Port(String id, String name, double latitude, double longitude) {
         this.setId(id);
         this.setName(name);
@@ -19,6 +21,15 @@ public class Port extends BaseDocument implements HasId, HasName, HasPosition {
      * @return Document path
      */
     public String getDocumentPath() {
-        return "/ports/" + this.getId();
+        return getDocumentPath(this.getId());
+    }
+
+    /**
+     * Get Firebase document path
+     *
+     * @return Document path
+     */
+    public static String getDocumentPath(String id) {
+        return "/" + COLLECTION_NAME + "/" + id;
     }
 }
