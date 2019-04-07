@@ -115,6 +115,15 @@ public class Containership
         return volume;
     }
 
+    /**
+     * Get free volume.
+     * @return Free volume
+     */
+    public int getFreeVolume() {
+
+        return this.getType().getVolume() - this.getContainersVolume();
+    }
+
     public boolean canContainContainer(Container container) {
         int volume = container.getVolume();
         int max_volume = this.getType().getVolume();
