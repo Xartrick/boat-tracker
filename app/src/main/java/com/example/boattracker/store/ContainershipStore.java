@@ -58,7 +58,32 @@ public class ContainershipStore {
         return promise;
     }
 
+    public static CompletableFuture<Void> fetch(String id) {
+        final CompletableFuture<Void> promise = new CompletableFuture<>();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db
+            .collection(Containership.COLLECTION_NAME)
+            .document(id)
+            .get()
+            .addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    parse(document);
+
+                    promise.complete(null);
+                } else {
+                    promise.completeExceptionally(task.getException());
+                }
+            })
+            .addOnFailureListener(promise::completeExceptionally);
+
+        return promise;
+    }
+
     private static void parse(DocumentSnapshot document) {
+
         final String id = document.getId();
 
         final String name = document.getString("name");
