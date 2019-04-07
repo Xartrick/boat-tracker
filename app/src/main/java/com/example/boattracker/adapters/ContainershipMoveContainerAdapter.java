@@ -56,7 +56,7 @@ public class ContainershipMoveContainerAdapter extends BaseAdapter {
 
         final double distance = containership.getDistance(this.containership);
         String distanceString;
-        if (distance >= 1000){
+        if (distance >= 1000) {
             distanceString = (int) Math.round(distance / 1000.0) + " km ";
         } else {
             distanceString = (int) distance + " m ";

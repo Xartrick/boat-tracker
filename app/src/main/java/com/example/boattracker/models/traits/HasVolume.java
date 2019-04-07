@@ -82,7 +82,7 @@ public interface HasVolume extends IDocument {
      *
      * @param length Length
      * @param height Height
-     * @param width Width
+     * @param width  Width
      */
     default void setVolume(int length, int height, int width) {
         this.setLength(length);

@@ -2,11 +2,10 @@ package com.example.boattracker.models;
 
 import com.example.boattracker.documents.BaseDocument;
 import com.example.boattracker.models.traits.HasId;
-import com.example.boattracker.models.traits.HasPosition;
 import com.example.boattracker.models.traits.HasName;
+import com.example.boattracker.models.traits.HasPosition;
 import com.example.boattracker.store.ContainerStore;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +30,15 @@ public class Containership
 
         this.port = port;
         this.type = type;
+    }
+
+    /**
+     * Get Firebase document path
+     *
+     * @return Document path
+     */
+    public static String getDocumentPath(String id) {
+        return "/" + COLLECTION_NAME + "/" + id;
     }
 
     public void replace(Containership containership) {
@@ -66,7 +74,7 @@ public class Containership
      * Move a Container from a Containership
      *
      * @param containership Source Containership
-     * @param container Container to move
+     * @param container     Container to move
      * @return True if Container has been moved, false otherwise
      */
     public boolean moveContainerFromContainership(Containership containership, Container container) {
@@ -84,6 +92,7 @@ public class Containership
 
     /**
      * Check if Container is in Container list
+     *
      * @param container Container
      * @return True if Container is in Container list, false otherwise
      */
@@ -118,6 +127,7 @@ public class Containership
 
     /**
      * Get free volume.
+     *
      * @return Free volume
      */
     public int getFreeVolume() {
@@ -192,14 +202,5 @@ public class Containership
      */
     public String getDocumentPath() {
         return getDocumentPath(this.getId());
-    }
-
-    /**
-     * Get Firebase document path
-     *
-     * @return Document path
-     */
-    public static String getDocumentPath(String id) {
-        return "/" + COLLECTION_NAME + "/" + id;
     }
 }

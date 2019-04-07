@@ -62,7 +62,7 @@ public interface HasPosition extends IDocument {
     /**
      * Set position (latitude and longitude)
      *
-     * @param latitude Latitude
+     * @param latitude  Latitude
      * @param longitude Longitude
      */
     default void setPosition(double latitude, double longitude) {
@@ -75,7 +75,6 @@ public interface HasPosition extends IDocument {
      * Get distance (in km) between two positionable objects
      *
      * @param object Object to calculate the distance from/to
-     *
      * @return Distance between the two objects
      */
     default double getDistance(HasPosition object) {

@@ -2,8 +2,8 @@ package com.example.boattracker.models;
 
 import com.example.boattracker.documents.BaseDocument;
 import com.example.boattracker.models.traits.HasId;
-import com.example.boattracker.models.traits.HasPosition;
 import com.example.boattracker.models.traits.HasName;
+import com.example.boattracker.models.traits.HasPosition;
 
 public class Port extends BaseDocument implements HasId, HasName, HasPosition {
 
@@ -20,8 +20,8 @@ public class Port extends BaseDocument implements HasId, HasName, HasPosition {
      *
      * @return Document path
      */
-    public String getDocumentPath() {
-        return getDocumentPath(this.getId());
+    public static String getDocumentPath(String id) {
+        return "/" + COLLECTION_NAME + "/" + id;
     }
 
     /**
@@ -29,7 +29,7 @@ public class Port extends BaseDocument implements HasId, HasName, HasPosition {
      *
      * @return Document path
      */
-    public static String getDocumentPath(String id) {
-        return "/" + COLLECTION_NAME + "/" + id;
+    public String getDocumentPath() {
+        return getDocumentPath(this.getId());
     }
 }

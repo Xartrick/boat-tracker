@@ -1,8 +1,8 @@
 package com.example.boattracker;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -114,7 +114,7 @@ public class ContainershipActivity extends AppCompatActivity {
 
                 final double distance = containership.getDistance(containership.getPort());
                 final String distanceToDisplay;
-                if (distance >= 1000){
+                if (distance >= 1000) {
                     distanceToDisplay = "Distance : " + (int) Math.round(distance / 1000) + " km";
                 } else {
                     distanceToDisplay = "Distance : " + (int) distance + " m";

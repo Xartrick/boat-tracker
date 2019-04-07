@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ContainershipActivity"
-    tools:menu="@menu/menu_containership"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:columnCount="1"
     android:padding="8dp"
-    android:columnCount="1">
+    tools:context=".ContainershipActivity"
+    tools:menu="@menu/menu_containership">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Name"
         android:textAllCaps="true"
-        android:textStyle="bold"
-        android:text="Name" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/text_name"
@@ -26,9 +25,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
+        android:text="Captain's name"
         android:textAllCaps="true"
-        android:textStyle="bold"
-        android:text="Captain's name" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/text_captain_name"
@@ -40,9 +39,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
+        android:text="Type"
         android:textAllCaps="true"
-        android:textStyle="bold"
-        android:text="Type" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/text_type"
@@ -54,9 +53,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
+        android:text="Port"
         android:textAllCaps="true"
-        android:textStyle="bold"
-        android:text="Port" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/text_port"
@@ -68,9 +67,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
+        android:text="Containers"
         android:textAllCaps="true"
-        android:textStyle="bold"
-        android:text="Containers" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/text_containers"
@@ -82,9 +81,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
+        android:text="Available Space"
         android:textAllCaps="true"
-        android:textStyle="bold"
-        android:text="Available Space" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/text_space"
