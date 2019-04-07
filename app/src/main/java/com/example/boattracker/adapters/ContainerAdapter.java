@@ -47,7 +47,7 @@ public class ContainerAdapter extends BaseAdapter {
         Container container = (Container) getItem(position);
 
         TextView lengthTextView = convertView.findViewById(R.id.container_volume);
-        lengthTextView.setText(Integer.toString(container.getLength()) + "x" + Integer.toString(container.getWidth())  + "x" + Integer.toString(container.getHeight()));
+        lengthTextView.setText(Integer.toString(container.getLength()) + "x" + Integer.toString(container.getWidth())  + "x" + Integer.toString(container.getHeight()) + " (" + container.getVolume() + " m3)");
 
         TextView idTextView = convertView.findViewById(R.id.container_id);
         idTextView.setText("Container " + (position + 1));
