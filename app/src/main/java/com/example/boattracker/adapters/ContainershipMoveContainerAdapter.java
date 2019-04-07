@@ -57,9 +57,9 @@ public class ContainershipMoveContainerAdapter extends BaseAdapter {
         final double distance = containership.getDistance(this.containership);
         String distanceString;
         if (distance >= 1000){
-            distanceString = Math.round(distance / 1000.0) + " km ";
+            distanceString = (int) Math.round(distance / 1000.0) + " km ";
         } else {
-            distanceString = distance + " m ";
+            distanceString = (int) distance + " m ";
         }
 
         if (containership.isContainershipCloseEnough(this.containership)) {
@@ -71,12 +71,8 @@ public class ContainershipMoveContainerAdapter extends BaseAdapter {
         TextView distanceTextView = convertView.findViewById(R.id.containership_distance);
         distanceTextView.setText(distanceString);
 
-        final Double volume = (double) containership.getContainersVolume();
-        final Double freeVolume = (double) containership.getFreeVolume();
-        String volumeString;
-
-        volumeString = volume.intValue() + " / " + freeVolume.intValue() + " m3 ";
-
+        final int freeVolume = containership.getFreeVolume();
+        String volumeString = freeVolume + " m3 free ";
         if (containership.canContainContainer(this.container))
             volumeString += "(free space)";
         else {
