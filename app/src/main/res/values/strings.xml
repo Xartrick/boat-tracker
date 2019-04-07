@@ -10,4 +10,7 @@
     <string name="action_containership_map">Show map</string>
     <string name="action_save">Save</string>
     <string name="action_edit_containers">Edit containers</string>
+    <string name="action_add">Add</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_edit_containership">Edit containership</string>
 </resources>
