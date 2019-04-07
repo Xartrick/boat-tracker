@@ -33,6 +33,15 @@ public class Containership
         this.type = type;
     }
 
+    public void replace(Containership containership) {
+        setId(containership.getId());
+        setName(containership.getName());
+        setCaptainName(containership.getCaptainName());
+        setPosition(containership.getLatitude(), containership.getLongitude());
+        setPort(containership.getPort());
+        setType(containership.getType());
+    }
+
     /**
      * Add a Container
      *
