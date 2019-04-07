@@ -81,6 +81,13 @@ public class ContainershipStore {
             type
         );
 
+        Containership old = get(id);
+        if (old != null) {
+            old.replace(containership);
+
+            return;
+        }
+
         containerships.add(containership);
     }
 }
