@@ -65,11 +65,15 @@ public class ContainerStore {
         final int height = Objects.requireNonNull(document.getLong("height")).intValue();
         final int width = Objects.requireNonNull(document.getLong("width")).intValue();
 
-        final DocumentReference containership_reference = document.getDocumentReference("containership");
-        final Containership containership = ContainershipStore.get(Objects.requireNonNull(containership_reference).getId());
-
         final Container container = new Container(id, length, height, width);
-        container.setContainership(containership);
+
+        final DocumentReference containership_reference = document.getDocumentReference("containership");
+
+        if (containership_reference != null) {
+            final Containership containership = ContainershipStore.get(containership_reference.getId());
+
+            container.setContainership(containership);
+        }
 
         containers.add(container);
     }
