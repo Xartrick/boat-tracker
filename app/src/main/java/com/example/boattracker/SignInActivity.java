@@ -1,9 +1,9 @@
 package com.example.boattracker;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -71,7 +71,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void signOut() {
-       Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(status -> statusTextView.setText("Signed out"));
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(status -> statusTextView.setText("Signed out"));
     }
 
     @Override
@@ -81,7 +81,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.sign_in_button_google:
                 signIn();
                 break;

@@ -20,8 +20,8 @@ public class ContainershipType extends BaseDocument implements HasId, HasName, H
      *
      * @return Document path
      */
-    public String getDocumentPath() {
-        return getDocumentPath(this.getId());
+    public static String getDocumentPath(String id) {
+        return "/" + COLLECTION_NAME + "/" + id;
     }
 
     /**
@@ -29,7 +29,7 @@ public class ContainershipType extends BaseDocument implements HasId, HasName, H
      *
      * @return Document path
      */
-    public static String getDocumentPath(String id) {
-        return "/" + COLLECTION_NAME + "/" + id;
+    public String getDocumentPath() {
+        return getDocumentPath(this.getId());
     }
 }

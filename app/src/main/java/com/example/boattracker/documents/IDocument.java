@@ -6,6 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public interface IDocument {
 
     void put(String key, Object value);
+
     Object get(String key);
 
     String getDocumentPath();

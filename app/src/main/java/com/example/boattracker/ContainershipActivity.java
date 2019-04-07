@@ -1,8 +1,8 @@
 package com.example.boattracker;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -50,22 +50,29 @@ public class ContainershipActivity extends AppCompatActivity {
 
         parseIntent();
 
-        final Containership containership = this.containership;
+        final TextView nameText = findViewById(R.id.text_name);
+        nameText.setText(containership.getName());
 
-        final TextView name_text_view = findViewById(R.id.text_name);
-        name_text_view.setText(containership.getName());
+        final TextView captainText = findViewById(R.id.text_captain_name);
+        captainText.setText(containership.getCaptainName());
 
-        final TextView captain_name_text_view = findViewById(R.id.text_captain_name);
-        captain_name_text_view.setText(containership.getCaptainName());
+        final TextView typeText = findViewById(R.id.text_type);
+        typeText.setText(containership.getType().getName());
 
-        final TextView type_text_view = findViewById(R.id.text_type);
-        type_text_view.setText(containership.getType().getName());
+        final TextView portText = findViewById(R.id.text_port);
+        portText.setText(containership.getPort().getName());
 
-        final TextView port_text_view = findViewById(R.id.text_port);
-        port_text_view.setText(containership.getPort().getName());
+        final TextView containersText = findViewById(R.id.text_containers);
+        containersText.setText(Integer.toString(containership.getContainers().size()));
 
-        final TextView containers_text_view = findViewById(R.id.text_containers);
-        containers_text_view.setText(containership.getContainers().size() + " containers");
+        final int volume = containership.getContainersVolume();
+        final int maxVolume = containership.getType().getVolume();
+        final int freeVolume = containership.getFreeVolume();
+        String spaceString;
+        spaceString = volume + " / " + maxVolume + " m3 (" + freeVolume + " m3 free)";
+
+        final TextView spaceText = findViewById(R.id.text_space);
+        spaceText.setText(spaceString);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -106,13 +113,11 @@ public class ContainershipActivity extends AppCompatActivity {
             case R.id.action_containership_distance:
 
                 final double distance = containership.getDistance(containership.getPort());
-
-                String distanceToDisplay;
-
-                if (distance >= 1000){
-                    distanceToDisplay = "Distance : " + Math.round(distance / 1000) + " km";
+                final String distanceToDisplay;
+                if (distance >= 1000) {
+                    distanceToDisplay = "Distance : " + (int) Math.round(distance / 1000) + " km";
                 } else {
-                    distanceToDisplay = "Distance : " + distance + " m";
+                    distanceToDisplay = "Distance : " + (int) distance + " m";
                 }
 
                 Toast.makeText(getApplicationContext(), distanceToDisplay, Toast.LENGTH_SHORT).show();

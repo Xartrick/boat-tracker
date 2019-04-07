@@ -1,9 +1,9 @@
 package com.example.boattracker;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -160,7 +160,7 @@ public class EditContainersActivity extends AppCompatActivity {
                             .addOnSuccessListener(aVoid -> {
                                 Toast.makeText(this, "Container added!", Toast.LENGTH_SHORT).show();
                             })
-                                .addOnFailureListener(e -> {
+                            .addOnFailureListener(e -> {
                                 Toast.makeText(this, "Failed to add container.", Toast.LENGTH_SHORT).show();
                             });
                     });

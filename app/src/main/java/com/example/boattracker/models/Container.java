@@ -18,6 +18,15 @@ public class Container extends BaseDocument implements HasId, HasVolume {
         this.setVolume(length, height, width);
     }
 
+    /**
+     * Get Firebase document path
+     *
+     * @return Document path
+     */
+    public static String getDocumentPath(String id) {
+        return "/" + COLLECTION_NAME + "/" + id;
+    }
+
     public Map<String, Object> getData() {
         Map<String, Object> data = new HashMap<>();
 
@@ -47,14 +56,5 @@ public class Container extends BaseDocument implements HasId, HasVolume {
      */
     public String getDocumentPath() {
         return getDocumentPath(this.getId());
-    }
-
-    /**
-     * Get Firebase document path
-     *
-     * @return Document path
-     */
-    public static String getDocumentPath(String id) {
-        return "/" + COLLECTION_NAME + "/" + id;
     }
 }

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignInActivity"
-    android:padding="8dp">
+    android:padding="8dp"
+    tools:context=".SignInActivity">
 
     <TextView
         android:id="@+id/status_textview"
@@ -14,14 +13,14 @@
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button_google"
-        android:layout_below="@+id/status_textview"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/status_textview" />
 
     <Button
         android:id="@+id/sign_out_button"
-        android:layout_below="@id/sign_in_button_google"
-        android:text="Sign out"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sign_in_button_google"
+        android:text="Sign out" />
 </RelativeLayout>

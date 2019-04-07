@@ -1,9 +1,10 @@
 package com.example.boattracker;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -72,11 +73,13 @@ public class EditContainershipActivity extends AppCompatActivity {
         spinnerType.setAdapter(spinnerTypeAdapter);
         spinnerType.setSelection(typeId);
 
-        final TextInputEditText ship_latitude_input = findViewById(R.id.text_latitude);
-        ship_latitude_input.setText(containership.getLatitude().toString());
+        final TextInputEditText latitudeInput = findViewById(R.id.text_latitude);
+        latitudeInput.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        latitudeInput.setText(containership.getLatitude().toString());
 
-        final TextInputEditText ship_longitude_input = findViewById(R.id.text_longitude);
-        ship_longitude_input.setText(containership.getLongitude().toString());
+        final TextInputEditText longitudeInput = findViewById(R.id.text_longitude);
+        longitudeInput.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        longitudeInput.setText(containership.getLongitude().toString());
 
         final Spinner spinnerPort = findViewById(R.id.spinner_port);
         final List<String> portNames = new ArrayList<>();

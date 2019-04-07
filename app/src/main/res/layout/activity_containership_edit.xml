@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ContainershipActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:columnCount="2"
-    android:padding="8dp">
+    android:columnCount="1"
+    android:padding="8dp"
+    tools:context=".ContainershipActivity">
 
     <TextView
         android:id="@+id/label_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Name" />
+        android:text="Name"
+        android:textAllCaps="true"
+        android:textStyle="bold" />
 
     <android.support.design.widget.TextInputEditText
         android:id="@+id/text_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="value" />
 
@@ -24,11 +25,13 @@
         android:id="@+id/label_captain_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Captain's name" />
+        android:text="Captain's name"
+        android:textAllCaps="true"
+        android:textStyle="bold" />
 
     <android.support.design.widget.TextInputEditText
         android:id="@+id/text_captain_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="value" />
 
@@ -36,22 +39,26 @@
         android:id="@+id/label_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Type" />
+        android:text="Type"
+        android:textAllCaps="true"
+        android:textStyle="bold" />
 
     <Spinner
         android:id="@+id/spinner_type"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/label_latitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Latitude" />
+        android:text="Latitude"
+        android:textAllCaps="true"
+        android:textStyle="bold" />
 
     <android.support.design.widget.TextInputEditText
         android:id="@+id/text_latitude"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="0.0" />
 
@@ -59,11 +66,13 @@
         android:id="@+id/label_longitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Longitude" />
+        android:text="Longitude"
+        android:textAllCaps="true"
+        android:textStyle="bold" />
 
     <android.support.design.widget.TextInputEditText
         android:id="@+id/text_longitude"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="0.0" />
 
@@ -71,10 +80,12 @@
         android:id="@+id/label_port"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Port" />
+        android:text="Port"
+        android:textAllCaps="true"
+        android:textStyle="bold" />
 
     <Spinner
         android:id="@+id/spinner_port"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </GridLayout>
