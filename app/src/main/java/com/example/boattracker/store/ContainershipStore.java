@@ -1,8 +1,13 @@
 package com.example.boattracker.store;
 
+import android.support.annotation.NonNull;
+
+import com.example.boattracker.models.Container;
 import com.example.boattracker.models.Containership;
 import com.example.boattracker.models.ContainershipType;
 import com.example.boattracker.models.Port;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -38,22 +43,22 @@ public class ContainershipStore {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db
-                .collection(Containership.COLLECTION_NAME)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        containerships.clear();
+            .collection(Containership.COLLECTION_NAME)
+            .get()
+            .addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    containerships.clear();
 
-                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                            parse(document);
-                        }
-
-                        promise.complete(null);
-                    } else {
-                        promise.completeExceptionally(task.getException());
+                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                        parse(document);
                     }
-                })
-                .addOnFailureListener(promise::completeExceptionally);
+
+                    promise.complete(null);
+                } else {
+                    promise.completeExceptionally(task.getException());
+                }
+            })
+            .addOnFailureListener(promise::completeExceptionally);
 
         return promise;
     }
