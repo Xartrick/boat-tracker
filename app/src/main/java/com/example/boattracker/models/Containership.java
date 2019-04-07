@@ -70,6 +70,7 @@ public class Containership
      * @return True if Container has been moved, false otherwise
      */
     public boolean moveContainerFromContainership(Containership containership, Container container) {
+
         if (!containership.hasContainer(container)) {
             return false;
         }
@@ -181,16 +182,7 @@ public class Containership
     }
 
     public List<Container> getContainers() {
-        final List<Container> containers = new ArrayList<>();
-        final List<Container> containership_containers = ContainerStore.all();
-
-        for (Container container : containership_containers) {
-            if (container.getContainership().getId().equals(this.getId())) {
-                containers.add(container);
-            }
-        }
-
-        return containers;
+        return ContainerStore.allOfContainership(this);
     }
 
     /**
