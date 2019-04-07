@@ -23,4 +23,14 @@ public interface HasId extends IDocument {
     default void setId(String id) {
         put(ID, id);
     }
+
+    /**
+     * Check if model is model
+     *
+     * @param model Model
+     * @return True if model is model, False otherwise
+     */
+    default boolean is(HasId model) {
+        return this.getId().equals(model.getId());
+    }
 }

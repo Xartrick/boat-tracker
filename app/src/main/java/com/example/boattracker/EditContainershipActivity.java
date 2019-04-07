@@ -28,40 +28,49 @@ public class EditContainershipActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_containership_edit);
 
-        parseIntent();
         drawUI();
     }
 
     private void parseIntent() {
+
         final Intent intent = getIntent();
 
         final String containership_id = intent.getStringExtra("containership_id");
-
-        // this.containership = (Containership) intent.getSerializableExtra("containership");
         this.containership = ContainershipStore.get(containership_id);
     }
 
     private void drawUI() {
+
+        parseIntent();
+
         final Containership containership = this.containership;
 
-        final TextInputEditText ship_name_input = findViewById(R.id.text_name);
-        ship_name_input.setText(containership.getName());
+        final TextInputEditText nameInput = findViewById(R.id.text_name);
+        nameInput.setText(containership.getName());
 
-        final TextInputEditText ship_captain_name_input = findViewById(R.id.text_captain_name);
-        ship_captain_name_input.setText(containership.getCaptainName());
+        final TextInputEditText captainNameInput = findViewById(R.id.text_captain_name);
+        captainNameInput.setText(containership.getCaptainName());
 
-        Spinner spinner_type = findViewById(R.id.spinner_type);
-        List<String> typeNames = new ArrayList<>();
+        final Spinner spinnerType = findViewById(R.id.spinner_type);
+        final List<String> typeNames = new ArrayList<>();
+        int typeId = 0;
         final List<ContainershipType> containership_types = ContainershipTypeStore.all();
         for (int i = 0; i < containership_types.size(); i++) {
+            final ContainershipType type = containership_types.get(i);
+
             typeNames.add(containership_types.get(i).getName());
+
+            if (type.is(containership.getType())) {
+                typeId = i;
+            }
         }
-        ArrayAdapter spinner_type_adapter = new ArrayAdapter(this,
-                android.R.layout.simple_spinner_item, typeNames);
-        spinner_type.setAdapter(spinner_type_adapter);
+        final ArrayAdapter spinnerTypeAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, typeNames);
+        spinnerType.setAdapter(spinnerTypeAdapter);
+        spinnerType.setSelection(typeId);
 
         final TextInputEditText ship_latitude_input = findViewById(R.id.text_latitude);
         ship_latitude_input.setText(containership.getLatitude().toString());
@@ -69,72 +78,76 @@ public class EditContainershipActivity extends AppCompatActivity {
         final TextInputEditText ship_longitude_input = findViewById(R.id.text_longitude);
         ship_longitude_input.setText(containership.getLongitude().toString());
 
-        Spinner spinner_port = findViewById(R.id.spinner_port);
-        List<String> portNames = new ArrayList<>();
+        final Spinner spinnerPort = findViewById(R.id.spinner_port);
+        final List<String> portNames = new ArrayList<>();
+        int portId = 0;
         final List<Port> ports = PortStore.all();
         for (int i = 0; i < ports.size(); i++) {
-            portNames.add(ports.get(i).getName());
+            final Port port = ports.get(i);
+
+            portNames.add(port.getName());
+
+            if (port.is(containership.getPort())) {
+                portId = i;
+            }
         }
-        ArrayAdapter spinner_port_adapter = new ArrayAdapter(this,
-                android.R.layout.simple_spinner_item, portNames);
-        spinner_port.setAdapter(spinner_port_adapter);
+        final ArrayAdapter spinnerPortAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, portNames);
+        spinnerPort.setAdapter(spinnerPortAdapter);
+        spinnerPort.setSelection(portId);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         getMenuInflater().inflate(R.menu.menu_containership_edit, menu);
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
+
             case R.id.action_containership_edit_save:
+
                 final TextInputEditText input_name = findViewById(R.id.text_name);
                 final TextInputEditText input_captain_name = findViewById(R.id.text_captain_name);
                 final Spinner input_type = findViewById(R.id.spinner_type);
                 final Spinner input_port = findViewById(R.id.spinner_port);
                 final TextInputEditText input_latitude = findViewById(R.id.text_latitude);
-                final TextInputEditText input_longititude = findViewById(R.id.text_longitude);
+                final TextInputEditText inputLogitude = findViewById(R.id.text_longitude);
 
                 containership.setName(input_name.getText().toString());
                 containership.setCaptainName(input_captain_name.getText().toString());
                 containership.setLatitude(Double.parseDouble(input_latitude.getText().toString()));
-                containership.setLongitude(Double.parseDouble(input_longititude.getText().toString()));
+                containership.setLongitude(Double.parseDouble(inputLogitude.getText().toString()));
                 containership.setType(ContainershipTypeStore.all().get(input_type.getSelectedItemPosition()));
                 containership.setPort(PortStore.all().get(input_port.getSelectedItemPosition()));
 
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-
                 final Map<String, Object> data = containership.getData();
 
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
                 db
                     .collection("containerships")
                     .document(containership.getId())
                     .update(data)
                     .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Containership edited!", Toast.LENGTH_SHORT).show();
+
+                        onBackPressed();
                     })
                     .addOnFailureListener(e -> {
-                        Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Failed to edit containership.", Toast.LENGTH_SHORT).show();
                     });
 
                 return true;
 
-            case R.id.action_containership_edit_containers:
-                final Intent intent = new Intent(getApplicationContext(), EditContainersActivity.class);
-                intent.putExtras(getIntent());
+            case android.R.id.home:
 
-                startActivity(intent);
-                finish();
-
-                return true;
-
-            case android.R.id.home: {
                 onBackPressed();
 
-                break;
-            }
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -142,10 +155,7 @@ public class EditContainershipActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, ContainershipActivity.class);
-        intent.putExtras(getIntent());
 
-        startActivity(intent);
         finish();
     }
 }

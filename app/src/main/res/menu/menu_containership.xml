@@ -4,8 +4,13 @@
     <item
         android:id="@+id/action_containership_edit"
         android:icon="@android:drawable/ic_menu_edit"
-        android:title="@string/action_refresh"
-        app:showAsAction="ifRoom" />
+        android:title="@string/action_edit_containership"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_containership_edit_containers"
+        android:title="@string/action_edit_containers"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_containership_distance"

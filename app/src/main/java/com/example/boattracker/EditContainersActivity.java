@@ -1,14 +1,25 @@
 package com.example.boattracker;
 
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.boattracker.adapters.ContainerAdapter;
+import com.example.boattracker.adapters.ContainershipMoveContainerAdapter;
+import com.example.boattracker.models.Container;
 import com.example.boattracker.models.Containership;
+import com.example.boattracker.store.ContainerStore;
 import com.example.boattracker.store.ContainershipStore;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class EditContainersActivity extends AppCompatActivity {
 
@@ -16,35 +27,145 @@ public class EditContainersActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_containers);
 
-        this.parseIntent();
         this.drawUI();
     }
 
     private void parseIntent() {
+
         final Intent intent = getIntent();
 
         final String containership_id = intent.getStringExtra("containership_id");
-
-        // this.containership = (Containership) intent.getSerializableExtra("containership");
         this.containership = ContainershipStore.get(containership_id);
     }
 
     private void drawUI() {
+
+        this.parseIntent();
+
+        final List<Container> containers = this.containership.getContainers();
         final ListView listView = findViewById(R.id.container_list_view);
-        listView.setAdapter(new ContainerAdapter(this, this.containership.getContainers()));
+        listView.setAdapter(new ContainerAdapter(this, containers));
+        listView.setEmptyView(findViewById(R.id.containers_empty));
+
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+
+            final Container container = containers.get(position);
+            final List<Containership> availableContainerships = new ArrayList<>();
+
+            final List<Containership> containerships = ContainershipStore.all();
+            for (Containership c : containerships) {
+                if (!container.getContainership().is(c)) {
+                    availableContainerships.add(c);
+                }
+            }
+
+            ContainershipMoveContainerAdapter adapter = new ContainershipMoveContainerAdapter(this, availableContainerships, containership, container);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder
+                .setTitle("Move container to")
+                .setAdapter(adapter, (dialog, which) -> {
+
+                    final Containership containership = availableContainerships.get(which);
+                    final Containership source = container.getContainership();
+
+                    if (!containership.isContainershipCloseEnough(source)) {
+                        Toast.makeText(this, "Containership is too far.", Toast.LENGTH_SHORT).show();
+
+                        drawUI();
+
+                        return;
+                    }
+
+                    if (!containership.moveContainerFromContainership(source, container)) {
+                        Toast.makeText(this, "Cannot move container to this containership.", Toast.LENGTH_SHORT).show();
+
+                        drawUI();
+
+                        return;
+                    }
+
+                    Map<String, Object> data = container.getData();
+
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    db
+                        .collection(Container.COLLECTION_NAME)
+                        .document(container.getId())
+                        .update(data)
+                        .addOnSuccessListener(aVoid -> {
+                            Toast.makeText(this, "Container moved!", Toast.LENGTH_SHORT).show();
+
+                            drawUI();
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(this, "Failed to move container.", Toast.LENGTH_SHORT).show();
+
+                            drawUI();
+                        });
+                });
+
+            builder.create().show();
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_edit_containers, menu);
+
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
-            case android.R.id.home: {
+
+            case android.R.id.home:
+
                 onBackPressed();
 
-                break;
-            }
+                return true;
+
+            case R.id.action_edit_container_add:
+
+                List<Container> containers = ContainerStore.allWithoutContainership();
+
+                if (containers.size() == 0) {
+                    Toast.makeText(this, "No container available.", Toast.LENGTH_SHORT).show();
+
+                    return true;
+                }
+
+                ContainerAdapter adapter = new ContainerAdapter(this, containers);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder
+                    .setTitle("Add container")
+                    .setAdapter(adapter, (dialog, which) -> {
+                        final Container container = containers.get(which);
+                        container.setContainership(containership);
+
+                        Map<String, Object> data = container.getData();
+
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        db
+                            .collection(Container.COLLECTION_NAME)
+                            .document(container.getId())
+                            .update(data)
+                            .addOnSuccessListener(aVoid -> {
+                                Toast.makeText(this, "Container added!", Toast.LENGTH_SHORT).show();
+                            })
+                                .addOnFailureListener(e -> {
+                                Toast.makeText(this, "Failed to add container.", Toast.LENGTH_SHORT).show();
+                            });
+                    });
+
+                builder.create().show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -52,10 +173,7 @@ public class EditContainersActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, EditContainershipActivity.class);
-        intent.putExtras(getIntent());
 
-        startActivity(intent);
         finish();
     }
 }

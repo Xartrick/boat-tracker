@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.example.boattracker.models.Containership;
 import com.example.boattracker.store.ContainershipStore;
 
@@ -17,23 +18,38 @@ public class ContainershipActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_containership);
 
         parseIntent();
-        drawUI();
     }
 
     private void parseIntent() {
+
         final Intent intent = getIntent();
 
         final String containership_id = intent.getStringExtra("containership_id");
 
-        // this.containership = (Containership) intent.getSerializableExtra("containership");
-        this.containership = ContainershipStore.get(containership_id);
+        ContainershipStore
+            .fetch(containership_id)
+            .whenComplete((void1, e) -> {
+
+                if (e != null) {
+                    Crashlytics.logException(e);
+                    return;
+                }
+
+                this.containership = ContainershipStore.get(containership_id);
+
+                drawUI();
+            });
     }
 
     private void drawUI() {
+
+        parseIntent();
+
         final Containership containership = this.containership;
 
         final TextView name_text_view = findViewById(R.id.text_name);
@@ -53,22 +69,42 @@ public class ContainershipActivity extends AppCompatActivity {
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
+
         getMenuInflater().inflate(R.menu.menu_containership, menu);
+
         return true;
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
+
+            case android.R.id.home:
+
+                onBackPressed();
+
+                return true;
+
             case R.id.action_containership_edit:
+
                 final Intent intentEdit = new Intent(getApplicationContext(), EditContainershipActivity.class);
                 intentEdit.putExtras(getIntent());
 
                 startActivity(intentEdit);
-                finish();
+
+                return true;
+
+            case R.id.action_containership_edit_containers:
+
+                final Intent intentEditContainers = new Intent(getApplicationContext(), EditContainersActivity.class);
+                intentEditContainers.putExtras(getIntent());
+
+                startActivity(intentEditContainers);
 
                 return true;
 
             case R.id.action_containership_distance:
+
                 final double distance = containership.getDistance(containership.getPort());
 
                 String distanceToDisplay;
@@ -84,15 +120,21 @@ public class ContainershipActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_containership_map:
+
                 final Intent intentMap = new Intent(getApplicationContext(), MapActivity.class);
                 intentMap.putExtras(getIntent());
 
                 startActivity(intentMap);
-                finish();
 
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        finish();
     }
 }

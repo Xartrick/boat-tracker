@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.example.boattracker.adapters.ContainershipAdapter;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -26,9 +28,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getData() {
+
         PortStore
             .fetch()
             .whenComplete((void1, e1) -> {
+
                 if (e1 != null) {
                     Crashlytics.logException(e1);
 
@@ -36,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 ContainershipTypeStore.fetch().whenComplete((void2, e2) -> {
+
                     if (e2 != null) {
                         Crashlytics.logException(e2);
 
@@ -43,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     ContainershipStore.fetch().whenComplete((void3, e3) -> {
+
                         if (e3 != null) {
                             Crashlytics.logException(e3);
 
@@ -50,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         ContainerStore.fetch().whenComplete((void4, e4) -> {
+
                             if (e4 != null) {
                                 Crashlytics.logException(e4);
 
@@ -64,14 +71,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void drawUI() {
+
         final ListView shipListView = findViewById(R.id.ship_list_view);
         shipListView.setAdapter(new ContainershipAdapter(this, ContainershipStore.all()));
 
+        Toast.makeText(this, "UI updated!", Toast.LENGTH_SHORT).show();
+
         shipListView.setOnItemClickListener((parent, view, position, id) -> {
+
             final Containership containership = ContainershipStore.all().get(position);
 
             final Intent intent = new Intent(getApplicationContext(), ContainershipActivity.class);
-            //intent.putExtra("containership", containership);
             intent.putExtra("containership_id", containership.getId());
 
             startActivity(intent);
@@ -79,18 +89,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
+
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
         return true;
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
+
             case R.id.action_refresh:
+
                 this.getData();
 
                 return true;
 
             case R.id.action_login:
+
                 Intent sign_in = new Intent(getApplicationContext(), SignInActivity.class);
 
                 startActivity(sign_in);

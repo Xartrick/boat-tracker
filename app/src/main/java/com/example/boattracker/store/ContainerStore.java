@@ -32,6 +32,40 @@ public class ContainerStore {
         return containers;
     }
 
+    public static List<Container> allWithoutContainership() {
+        final List<Container> containers = new ArrayList<>();
+        final List<Container> containership_containers = ContainerStore.all();
+
+        for (Container container : containership_containers) {
+            final Containership c = container.getContainership();
+
+            if (c == null) {
+                containers.add(container);
+            }
+        }
+
+        return containers;
+    }
+
+    public static List<Container> allOfContainership(Containership containership) {
+        final List<Container> containers = new ArrayList<>();
+        final List<Container> containership_containers = ContainerStore.all();
+
+        for (Container container : containership_containers) {
+            final Containership c = container.getContainership();
+
+            if (c == null) {
+                continue;
+            }
+
+            if (c.getId().equals(containership.getId())) {
+                containers.add(container);
+            }
+        }
+
+        return containers;
+    }
+
     public static CompletableFuture<Void> fetch() {
         final CompletableFuture<Void> promise = new CompletableFuture<>();
 
@@ -65,11 +99,15 @@ public class ContainerStore {
         final int height = Objects.requireNonNull(document.getLong("height")).intValue();
         final int width = Objects.requireNonNull(document.getLong("width")).intValue();
 
-        final DocumentReference containership_reference = document.getDocumentReference("containership");
-        final Containership containership = ContainershipStore.get(Objects.requireNonNull(containership_reference).getId());
-
         final Container container = new Container(id, length, height, width);
-        container.setContainership(containership);
+
+        final DocumentReference containership_reference = document.getDocumentReference("containership");
+
+        if (containership_reference != null) {
+            final Containership containership = ContainershipStore.get(containership_reference.getId());
+
+            container.setContainership(containership);
+        }
 
         containers.add(container);
     }

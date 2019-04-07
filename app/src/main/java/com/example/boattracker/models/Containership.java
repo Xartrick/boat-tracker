@@ -33,6 +33,15 @@ public class Containership
         this.type = type;
     }
 
+    public void replace(Containership containership) {
+        setId(containership.getId());
+        setName(containership.getName());
+        setCaptainName(containership.getCaptainName());
+        setPosition(containership.getLatitude(), containership.getLongitude());
+        setPort(containership.getPort());
+        setType(containership.getType());
+    }
+
     /**
      * Add a Container
      *
@@ -61,6 +70,7 @@ public class Containership
      * @return True if Container has been moved, false otherwise
      */
     public boolean moveContainerFromContainership(Containership containership, Container container) {
+
         if (!containership.hasContainer(container)) {
             return false;
         }
@@ -106,6 +116,15 @@ public class Containership
         return volume;
     }
 
+    /**
+     * Get free volume.
+     * @return Free volume
+     */
+    public int getFreeVolume() {
+
+        return this.getType().getVolume() - this.getContainersVolume();
+    }
+
     public boolean canContainContainer(Container container) {
         int volume = container.getVolume();
         int max_volume = this.getType().getVolume();
@@ -116,6 +135,10 @@ public class Containership
 
     public boolean isContainershipCloseEnough(Containership containership) {
         return this.getDistance(containership) <= 300;
+    }
+
+    public boolean canMoveContainerTo(Container container, Containership containership) {
+        return containership.canContainContainer(container) && isContainershipCloseEnough(containership);
     }
 
     public Map<String, Object> getData() {
@@ -159,16 +182,7 @@ public class Containership
     }
 
     public List<Container> getContainers() {
-        final List<Container> containers = new ArrayList<>();
-        final List<Container> containership_containers = ContainerStore.all();
-
-        for (Container container : containership_containers) {
-            if (container.getContainership().getId().equals(this.getId())) {
-                containers.add(container);
-            }
-        }
-
-        return containers;
+        return ContainerStore.allOfContainership(this);
     }
 
     /**

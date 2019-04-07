@@ -14,6 +14,12 @@
         android:layout_height="match_parent"
         android:padding="10dp" >
 
+        <TextView android:id="@+id/containers_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="This containership has no containers."
+            android:visibility="gone" />
+
         <ListView
             android:id="@+id/container_list_view"
             android:layout_width="wrap_content"

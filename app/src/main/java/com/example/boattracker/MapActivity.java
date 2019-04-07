@@ -26,10 +26,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-
-        parseIntent();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         Objects.requireNonNull(mapFragment).getMapAsync(this);
@@ -37,12 +36,16 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         this.map = googleMap;
 
         addMapMarkers();
     }
 
     private void addMapMarkers() {
+
+        parseIntent();
+
         final Containership containership = this.containership;
         final Port port = containership.getPort();
 
@@ -67,18 +70,20 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
     private void parseIntent() {
+
         final Intent intent = getIntent();
 
         final String containership_id = intent.getStringExtra("containership_id");
-
-        // this.containership = (Containership) intent.getSerializableExtra("containership");
         this.containership = ContainershipStore.get(containership_id);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
+
             case android.R.id.home: {
+
                 onBackPressed();
 
                 break;
@@ -90,10 +95,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, ContainershipActivity.class);
-        intent.putExtras(getIntent());
 
-        startActivity(intent);
         finish();
     }
 }

@@ -1,8 +1,13 @@
 package com.example.boattracker.store;
 
+import android.support.annotation.NonNull;
+
+import com.example.boattracker.models.Container;
 import com.example.boattracker.models.Containership;
 import com.example.boattracker.models.ContainershipType;
 import com.example.boattracker.models.Port;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -38,27 +43,52 @@ public class ContainershipStore {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db
-                .collection(Containership.COLLECTION_NAME)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        containerships.clear();
+            .collection(Containership.COLLECTION_NAME)
+            .get()
+            .addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    containerships.clear();
 
-                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                            parse(document);
-                        }
-
-                        promise.complete(null);
-                    } else {
-                        promise.completeExceptionally(task.getException());
+                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                        parse(document);
                     }
-                })
-                .addOnFailureListener(promise::completeExceptionally);
+
+                    promise.complete(null);
+                } else {
+                    promise.completeExceptionally(task.getException());
+                }
+            })
+            .addOnFailureListener(promise::completeExceptionally);
+
+        return promise;
+    }
+
+    public static CompletableFuture<Void> fetch(String id) {
+        final CompletableFuture<Void> promise = new CompletableFuture<>();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db
+            .collection(Containership.COLLECTION_NAME)
+            .document(id)
+            .get()
+            .addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    parse(document);
+
+                    promise.complete(null);
+                } else {
+                    promise.completeExceptionally(task.getException());
+                }
+            })
+            .addOnFailureListener(promise::completeExceptionally);
 
         return promise;
     }
 
     private static void parse(DocumentSnapshot document) {
+
         final String id = document.getId();
 
         final String name = document.getString("name");
@@ -80,6 +110,13 @@ public class ContainershipStore {
             port,
             type
         );
+
+        Containership old = get(id);
+        if (old != null) {
+            old.replace(containership);
+
+            return;
+        }
 
         containerships.add(containership);
     }
