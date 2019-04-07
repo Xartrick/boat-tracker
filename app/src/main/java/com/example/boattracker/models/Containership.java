@@ -136,6 +136,10 @@ public class Containership
         return this.getDistance(containership) <= 300;
     }
 
+    public boolean canMoveContainerTo(Container container, Containership containership) {
+        return containership.canContainContainer(container) && isContainershipCloseEnough(containership);
+    }
+
     public Map<String, Object> getData() {
         Map<String, Object> data = new HashMap<>();
 
