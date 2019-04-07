@@ -32,6 +32,40 @@ public class ContainerStore {
         return containers;
     }
 
+    public static List<Container> allWithoutContainership() {
+        final List<Container> containers = new ArrayList<>();
+        final List<Container> containership_containers = ContainerStore.all();
+
+        for (Container container : containership_containers) {
+            final Containership c = container.getContainership();
+
+            if (c == null) {
+                containers.add(container);
+            }
+        }
+
+        return containers;
+    }
+
+    public static List<Container> allOfContainership(Containership containership) {
+        final List<Container> containers = new ArrayList<>();
+        final List<Container> containership_containers = ContainerStore.all();
+
+        for (Container container : containership_containers) {
+            final Containership c = container.getContainership();
+
+            if (c == null) {
+                continue;
+            }
+
+            if (c.getId().equals(containership.getId())) {
+                containers.add(container);
+            }
+        }
+
+        return containers;
+    }
+
     public static CompletableFuture<Void> fetch() {
         final CompletableFuture<Void> promise = new CompletableFuture<>();
 
