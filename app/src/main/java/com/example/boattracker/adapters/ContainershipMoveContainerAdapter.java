@@ -13,20 +13,25 @@ import com.example.boattracker.models.Containership;
 
 import java.util.List;
 
+class ContainershipMoveContainerViewHolder {
+    TextView shipNameView;
+    TextView distanceTextView;
+    TextView freeVolumeTextView;
+}
+
 public class ContainershipMoveContainerAdapter extends BaseAdapter {
 
+    private final List<Containership> containerships;
     private final Containership containership;
     private final Container container;
-    private Context context;
-    private List<Containership> containerships;
-    private LayoutInflater layoutInflater;
+    private final LayoutInflater layoutInflater;
 
     public ContainershipMoveContainerAdapter(Context context, List<Containership> containerships, Containership containership, Container container) {
-        this.context = context;
         this.containerships = containerships;
         this.containership = containership;
         this.container = container;
-        this.layoutInflater = LayoutInflater.from(context);
+
+        layoutInflater = LayoutInflater.from(context);
     }
 
     @Override
@@ -47,42 +52,31 @@ public class ContainershipMoveContainerAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        convertView = layoutInflater.inflate(R.layout.adapter_containership_move_container, null);
+        final ContainershipMoveContainerViewHolder viewHolder;
 
-        Containership containership = (Containership) getItem(position);
+        if (convertView == null) {
+            convertView = layoutInflater.inflate(R.layout.adapter_containership_move_container, parent, false);
 
-        TextView shipNameView = convertView.findViewById(R.id.containership_name);
-        shipNameView.setText(containership.getName());
+            viewHolder = new ContainershipMoveContainerViewHolder();
+            viewHolder.shipNameView = convertView.findViewById(R.id.containership_name);
+            viewHolder.distanceTextView = convertView.findViewById(R.id.containership_distance);
+            viewHolder.freeVolumeTextView = convertView.findViewById(R.id.containership_free_volume);
 
-        final double distance = containership.getDistance(this.containership);
-        String distanceString;
-        if (distance >= 1000) {
-            distanceString = (int) Math.round(distance / 1000.0) + " km ";
-        } else {
-            distanceString = (int) distance + " m ";
+            convertView.setTag(viewHolder);
         }
-
-        if (containership.isContainershipCloseEnough(this.containership)) {
-            distanceString += "(close enough)";
-        } else {
-            distanceString += "(too far)";
-        }
-
-        TextView distanceTextView = convertView.findViewById(R.id.containership_distance);
-        distanceTextView.setText(distanceString);
-
-        final int freeVolume = containership.getFreeVolume();
-        String volumeString = freeVolume + " m3 free ";
-        if (containership.canContainContainer(this.container))
-            volumeString += "(free space)";
         else {
-            volumeString += "(not enough space)";
+            viewHolder = (ContainershipMoveContainerViewHolder) convertView.getTag();
         }
 
-        TextView freeVolumeTextView = convertView.findViewById(R.id.containership_free_volume);
-        freeVolumeTextView.setText(volumeString);
+        final Containership containership = (Containership) getItem(position);
 
-        convertView.setEnabled(this.containership.canMoveContainerTo(this.container, containership));
+        viewHolder.shipNameView.setText(containership.getName());
+
+        final String distanceString = containership.getFormattedDistance(containership);
+        viewHolder.distanceTextView.setText(distanceString);
+
+        final String volumeString = containership.getFreeVolume() + " m3 free";
+        viewHolder.freeVolumeTextView.setText(volumeString);
 
         return convertView;
     }

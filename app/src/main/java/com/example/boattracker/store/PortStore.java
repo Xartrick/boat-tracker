@@ -13,9 +13,10 @@ import java.util.concurrent.CompletableFuture;
 
 public class PortStore {
 
-    private static List<Port> ports = new ArrayList<>();
+    private final static List<Port> ports = new ArrayList<>();
 
     public static Port get(String id) {
+
         for (Port port : ports) {
             if (port.getId().equals(id)) {
                 return port;
@@ -26,15 +27,16 @@ public class PortStore {
     }
 
     public static List<Port> all() {
+
         return ports;
     }
 
     public static CompletableFuture<Void> fetch() {
+
         final CompletableFuture<Void> promise = new CompletableFuture<>();
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db
+        FirebaseFirestore
+            .getInstance()
             .collection(Port.COLLECTION_NAME)
             .get()
             .addOnCompleteListener(task -> {
@@ -56,6 +58,7 @@ public class PortStore {
     }
 
     private static void parse(DocumentSnapshot document) {
+
         final String id = document.getId();
 
         final String name = document.getString("name");

@@ -9,16 +9,19 @@ public abstract class BaseDocument implements IDocument, Serializable {
     private final Map<String, Object> entries;
 
     protected BaseDocument() {
-        this.entries = new HashMap<>();
+
+        entries = new HashMap<>();
     }
 
     @Override
     public final void put(String key, Object value) {
-        this.entries.put(key, value);
+
+        entries.put(key, value);
     }
 
     @Override
     public final Object get(String key) {
-        return this.entries.get(key);
+
+        return entries.get(key);
     }
 }

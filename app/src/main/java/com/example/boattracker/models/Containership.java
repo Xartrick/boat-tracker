@@ -14,19 +14,20 @@ public class Containership
         extends BaseDocument
         implements HasId, HasName, HasPosition {
 
-    public static String COLLECTION_NAME = "containerships";
+    public final static String COLLECTION_NAME = "containerships";
 
     private String captainName;
     private Port port;
     private ContainershipType type;
 
     public Containership(String id, String name, String captainName, double latitude, double longitude, Port port, ContainershipType type) {
-        this.setId(id);
-        this.setName(name);
+
+        setId(id);
+        setName(name);
 
         this.captainName = captainName;
 
-        this.setPosition(latitude, longitude);
+        setPosition(latitude, longitude);
 
         this.port = port;
         this.type = type;
@@ -38,10 +39,12 @@ public class Containership
      * @return Document path
      */
     public static String getDocumentPath(String id) {
+
         return "/" + COLLECTION_NAME + "/" + id;
     }
 
     public void replace(Containership containership) {
+
         setId(containership.getId());
         setName(containership.getName());
         setCaptainName(containership.getCaptainName());
@@ -57,11 +60,12 @@ public class Containership
      * @return True if Container has been added, false otherwise
      */
     public boolean addContainer(Container container) {
-        if (this.hasContainer(container)) {
+
+        if (hasContainer(container)) {
             return false;
         }
 
-        if (!this.canContainContainer(container)) {
+        if (!canContainContainer(container)) {
             return false;
         }
 
@@ -83,11 +87,11 @@ public class Containership
             return false;
         }
 
-        if (!this.isContainershipCloseEnough(containership)) {
+        if (!isContainershipCloseEnough(containership)) {
             return false;
         }
 
-        return this.addContainer(container);
+        return addContainer(container);
     }
 
     /**
@@ -96,8 +100,9 @@ public class Containership
      * @param container Container
      * @return True if Container is in Container list, false otherwise
      */
-    public boolean hasContainer(Container container) {
-        final List<Container> containers = this.getContainers();
+    private boolean hasContainer(Container container) {
+
+        final List<Container> containers = getContainers();
 
         for (Container c : containers) {
             if (c.getId().equals(container.getId())) {
@@ -114,9 +119,10 @@ public class Containership
      * @return Containers used volume
      */
     public int getContainersVolume() {
+
         int volume = 0;
 
-        final List<Container> containers = this.getContainers();
+        final List<Container> containers = getContainers();
 
         for (Container container : containers) {
             volume += container.getVolume();
@@ -132,33 +138,37 @@ public class Containership
      */
     public int getFreeVolume() {
 
-        return this.getType().getVolume() - this.getContainersVolume();
+        return getType().getVolume() - getContainersVolume();
     }
 
     public boolean canContainContainer(Container container) {
-        int volume = container.getVolume();
-        int max_volume = this.getType().getVolume();
-        int used_volume = this.getContainersVolume();
+
+        final int volume = container.getVolume();
+        final int max_volume = getType().getVolume();
+        final int used_volume = getContainersVolume();
 
         return (used_volume + volume <= max_volume);
     }
 
     public boolean isContainershipCloseEnough(Containership containership) {
-        return this.getDistance(containership) <= 300;
+
+        return getDistance(containership) <= 300;
     }
 
     public boolean canMoveContainerTo(Container container, Containership containership) {
+
         return containership.canContainContainer(container) && isContainershipCloseEnough(containership);
     }
 
     public Map<String, Object> getData() {
-        Map<String, Object> data = new HashMap<>();
 
-        data.put("captainName", this.getCaptainName());
-        data.put("name", this.getName());
-        data.put("position", this.getPosition());
-        data.put("port", this.port.getDocumentReference());
-        data.put("type", this.type.getDocumentReference());
+        final Map<String, Object> data = new HashMap<>();
+
+        data.put("captainName", getCaptainName());
+        data.put("name", getName());
+        data.put("position", getPosition());
+        data.put("port", getPort().getDocumentReference());
+        data.put("type", getType().getDocumentReference());
 
         return data;
     }
@@ -168,30 +178,37 @@ public class Containership
      */
 
     public String getCaptainName() {
+
         return captainName;
     }
 
     public void setCaptainName(String captainName) {
+
         this.captainName = captainName;
     }
 
     public Port getPort() {
+
         return port;
     }
 
     public void setPort(Port port) {
+
         this.port = port;
     }
 
     public ContainershipType getType() {
+
         return type;
     }
 
     public void setType(ContainershipType type) {
+
         this.type = type;
     }
 
     public List<Container> getContainers() {
+
         return ContainerStore.allOfContainership(this);
     }
 
@@ -201,6 +218,7 @@ public class Containership
      * @return Document path
      */
     public String getDocumentPath() {
-        return getDocumentPath(this.getId());
+
+        return getDocumentPath(getId());
     }
 }

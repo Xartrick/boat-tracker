@@ -14,6 +14,7 @@ public interface HasPosition extends IDocument {
      * @return Geo
      */
     default GeoPoint getPosition() {
+
         final Position p = (Position) get(POSITION);
 
         return p == null ? new GeoPoint(0, 0) : new GeoPoint(p.getLatitude(), p.getLongitude());
@@ -25,7 +26,8 @@ public interface HasPosition extends IDocument {
      * @return Latitude
      */
     default Double getLatitude() {
-        return this.getPosition().getLatitude();
+
+        return getPosition().getLatitude();
     }
 
     /**
@@ -34,9 +36,10 @@ public interface HasPosition extends IDocument {
      * @param latitude Latitude
      */
     default void setLatitude(double latitude) {
-        GeoPoint position = this.getPosition();
 
-        this.setPosition(latitude, position.getLongitude());
+        final GeoPoint position = getPosition();
+
+        setPosition(latitude, position.getLongitude());
     }
 
     /**
@@ -45,7 +48,8 @@ public interface HasPosition extends IDocument {
      * @return Longitude
      */
     default Double getLongitude() {
-        return this.getPosition().getLongitude();
+
+        return getPosition().getLongitude();
     }
 
     /**
@@ -54,9 +58,10 @@ public interface HasPosition extends IDocument {
      * @param longitude Longitude
      */
     default void setLongitude(double longitude) {
-        GeoPoint position = this.getPosition();
 
-        this.setPosition(position.getLatitude(), longitude);
+        final GeoPoint position = getPosition();
+
+        setPosition(position.getLatitude(), longitude);
     }
 
     /**
@@ -66,9 +71,10 @@ public interface HasPosition extends IDocument {
      * @param longitude Longitude
      */
     default void setPosition(double latitude, double longitude) {
+
         final Position position = new Position(latitude, longitude);
 
-        this.put(POSITION, position);
+        put(POSITION, position);
     }
 
     /**
@@ -78,11 +84,12 @@ public interface HasPosition extends IDocument {
      * @return Distance between the two objects
      */
     default double getDistance(HasPosition object) {
+
         final double R = 6371e3;
 
-        final double lat1 = this.getLatitude();
+        final double lat1 = getLatitude();
         final double lat2 = object.getLatitude();
-        final double lon1 = this.getLongitude();
+        final double lon1 = getLongitude();
         final double lon2 = object.getLongitude();
 
         final double f1 = Math.toRadians(lat1);
@@ -94,5 +101,22 @@ public interface HasPosition extends IDocument {
         final double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
         return R * c;
+    }
+
+    /**
+     * Get formatted distance between two positionable objects
+     *
+     * @param object Object to calculate the distance from/to
+     * @return Distance between the two objects in m or km
+     */
+    default String getFormattedDistance(HasPosition object) {
+
+        final double distance = getDistance(object);
+
+        if (distance >= 1000) {
+            return (int) Math.round(distance / 1000.0) + " km";
+        }
+
+        return (int) distance + " m";
     }
 }

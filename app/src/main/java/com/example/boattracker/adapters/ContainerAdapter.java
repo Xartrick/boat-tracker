@@ -12,45 +12,70 @@ import com.example.boattracker.models.Container;
 
 import java.util.List;
 
+class ContainerViewHolder {
+    TextView lengthTextView;
+    TextView idTextView;
+}
+
 public class ContainerAdapter extends BaseAdapter {
 
-    private Context context;
-    private List<Container> containers;
-    private LayoutInflater layoutInflater;
+    private final List<Container> containers;
+    private final LayoutInflater layoutInflater;
 
     public ContainerAdapter(Context context, List<Container> containers) {
-        this.context = context;
+
         this.containers = containers;
-        this.layoutInflater = LayoutInflater.from(context);
+
+        layoutInflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
+
         return containers.size();
     }
 
     @Override
     public Object getItem(int position) {
+
         return containers.get(position);
     }
 
     @Override
     public long getItemId(int position) {
+
         return 0;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        convertView = layoutInflater.inflate(R.layout.adapter_container, null);
+        final ContainerViewHolder viewHolder;
 
-        Container container = (Container) getItem(position);
+        if (convertView == null) {
+            convertView = layoutInflater.inflate(R.layout.adapter_container, parent, false);
 
-        TextView lengthTextView = convertView.findViewById(R.id.container_volume);
-        lengthTextView.setText(Integer.toString(container.getLength()) + "x" + Integer.toString(container.getWidth()) + "x" + Integer.toString(container.getHeight()) + " (" + container.getVolume() + " m3)");
+            viewHolder = new ContainerViewHolder();
+            viewHolder.lengthTextView = convertView.findViewById(R.id.container_volume);
+            viewHolder.idTextView = convertView.findViewById(R.id.container_id);
 
-        TextView idTextView = convertView.findViewById(R.id.container_id);
-        idTextView.setText(container.getId());
+            convertView.setTag(viewHolder);
+        }
+        else {
+            viewHolder = (ContainerViewHolder) convertView.getTag();
+        }
+
+        final Container container = (Container) getItem(position);
+
+        final String text = Integer.toString(container.getLength()) +
+            "x" +
+            Integer.toString(container.getWidth()) +
+            "x" +
+            Integer.toString(container.getHeight()) +
+            " (" + container.getVolume() + " m3)";
+
+        viewHolder.lengthTextView.setText(text);
+        viewHolder.idTextView.setText(container.getId());
 
         return convertView;
     }

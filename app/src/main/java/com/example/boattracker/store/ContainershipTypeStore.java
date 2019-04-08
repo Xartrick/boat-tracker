@@ -12,9 +12,10 @@ import java.util.concurrent.CompletableFuture;
 
 public class ContainershipTypeStore {
 
-    private static List<ContainershipType> containershipTypes = new ArrayList<>();
+    private final static List<ContainershipType> containershipTypes = new ArrayList<>();
 
     public static ContainershipType get(String id) {
+
         for (ContainershipType type : containershipTypes) {
             if (type.getId().equals(id)) {
                 return type;
@@ -25,15 +26,16 @@ public class ContainershipTypeStore {
     }
 
     public static List<ContainershipType> all() {
+
         return containershipTypes;
     }
 
     public static CompletableFuture<Void> fetch() {
+
         final CompletableFuture<Void> promise = new CompletableFuture<>();
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db
+        FirebaseFirestore
+            .getInstance()
             .collection(ContainershipType.COLLECTION_NAME)
             .get()
             .addOnCompleteListener(task -> {
@@ -55,6 +57,7 @@ public class ContainershipTypeStore {
     }
 
     private static void parse(DocumentSnapshot document) {
+
         final String id = document.getId();
 
         final String name = document.getString("name");

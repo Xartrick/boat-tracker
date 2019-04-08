@@ -14,6 +14,7 @@ public interface HasVolume extends IDocument {
      * @return Length
      */
     default int getLength() {
+
         final Integer length = (Integer) get(LENGTH);
 
         return length == null ? 0 : length;
@@ -25,6 +26,7 @@ public interface HasVolume extends IDocument {
      * @param length Length
      */
     default void setLength(int length) {
+
         put(LENGTH, length);
     }
 
@@ -34,6 +36,7 @@ public interface HasVolume extends IDocument {
      * @return Height
      */
     default int getHeight() {
+
         final Integer height = (Integer) get(HEIGHT);
 
         return height == null ? 0 : height;
@@ -45,6 +48,7 @@ public interface HasVolume extends IDocument {
      * @param height Height
      */
     default void setHeight(int height) {
+
         put(HEIGHT, height);
     }
 
@@ -54,6 +58,7 @@ public interface HasVolume extends IDocument {
      * @return Width
      */
     default int getWidth() {
+
         final Integer width = (Integer) get(WIDTH);
 
         return width == null ? 0 : width;
@@ -65,6 +70,7 @@ public interface HasVolume extends IDocument {
      * @param width Width
      */
     default void setWidth(int width) {
+
         put(WIDTH, width);
     }
 
@@ -74,7 +80,8 @@ public interface HasVolume extends IDocument {
      * @return Volume
      */
     default int getVolume() {
-        return this.getLength() * this.getHeight() * this.getWidth();
+
+        return getLength() * getHeight() * getWidth();
     }
 
     /**
@@ -85,8 +92,9 @@ public interface HasVolume extends IDocument {
      * @param width  Width
      */
     default void setVolume(int length, int height, int width) {
-        this.setLength(length);
-        this.setHeight(height);
-        this.setWidth(width);
+
+        setLength(length);
+        setHeight(height);
+        setWidth(width);
     }
 }

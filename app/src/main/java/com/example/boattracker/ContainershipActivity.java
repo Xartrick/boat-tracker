@@ -28,11 +28,10 @@ public class ContainershipActivity extends AppCompatActivity {
     private void parseIntent() {
 
         final Intent intent = getIntent();
-
-        final String containership_id = intent.getStringExtra("containership_id");
+        final String containershipId = intent.getStringExtra("containership_id");
 
         ContainershipStore
-            .fetch(containership_id)
+            .fetch(containershipId)
             .whenComplete((void1, e) -> {
 
                 if (e != null) {
@@ -40,7 +39,7 @@ public class ContainershipActivity extends AppCompatActivity {
                     return;
                 }
 
-                this.containership = ContainershipStore.get(containership_id);
+                containership = ContainershipStore.get(containershipId);
 
                 drawUI();
             });
@@ -63,13 +62,13 @@ public class ContainershipActivity extends AppCompatActivity {
         portText.setText(containership.getPort().getName());
 
         final TextView containersText = findViewById(R.id.text_containers);
-        containersText.setText(Integer.toString(containership.getContainers().size()));
+        String containersCount = Integer.toString(containership.getContainers().size());
+        containersText.setText(containersCount);
 
         final int volume = containership.getContainersVolume();
         final int maxVolume = containership.getType().getVolume();
         final int freeVolume = containership.getFreeVolume();
-        String spaceString;
-        spaceString = volume + " / " + maxVolume + " m3 (" + freeVolume + " m3 free)";
+        String spaceString = volume + " / " + maxVolume + " m3 (" + freeVolume + " m3 free)";
 
         final TextView spaceText = findViewById(R.id.text_space);
         spaceText.setText(spaceString);
@@ -112,21 +111,14 @@ public class ContainershipActivity extends AppCompatActivity {
 
             case R.id.action_containership_distance:
 
-                final double distance = containership.getDistance(containership.getPort());
-                final String distanceToDisplay;
-                if (distance >= 1000) {
-                    distanceToDisplay = "Distance : " + (int) Math.round(distance / 1000) + " km";
-                } else {
-                    distanceToDisplay = "Distance : " + (int) distance + " m";
-                }
-
-                Toast.makeText(getApplicationContext(), distanceToDisplay, Toast.LENGTH_SHORT).show();
+                final String distance = "Distance : " + containership.getFormattedDistance(containership.getPort());
+                Toast.makeText(getApplicationContext(), distance, Toast.LENGTH_SHORT).show();
 
                 return true;
 
             case R.id.action_containership_map:
 
-                final Intent intentMap = new Intent(getApplicationContext(), MapActivity.class);
+                final Intent intentMap = new Intent(getApplicationContext(), ContainershipMapActivity.class);
                 intentMap.putExtras(getIntent());
 
                 startActivity(intentMap);

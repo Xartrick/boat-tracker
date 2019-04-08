@@ -7,12 +7,13 @@ import com.example.boattracker.models.traits.HasVolume;
 
 public class ContainershipType extends BaseDocument implements HasId, HasName, HasVolume {
 
-    public static String COLLECTION_NAME = "containership-types";
+    public final static String COLLECTION_NAME = "containership-types";
 
     public ContainershipType(String id, String name, int length, int height, int width) {
-        this.setId(id);
-        this.setName(name);
-        this.setVolume(length, height, width);
+
+        setId(id);
+        setName(name);
+        setVolume(length, height, width);
     }
 
     /**
@@ -21,6 +22,7 @@ public class ContainershipType extends BaseDocument implements HasId, HasName, H
      * @return Document path
      */
     public static String getDocumentPath(String id) {
+
         return "/" + COLLECTION_NAME + "/" + id;
     }
 
@@ -30,6 +32,7 @@ public class ContainershipType extends BaseDocument implements HasId, HasName, H
      * @return Document path
      */
     public String getDocumentPath() {
-        return getDocumentPath(this.getId());
+
+        return getDocumentPath(getId());
     }
 }

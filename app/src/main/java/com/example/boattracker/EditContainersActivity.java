@@ -31,22 +31,23 @@ public class EditContainersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_containers);
 
-        this.drawUI();
+        drawUI();
     }
 
     private void parseIntent() {
 
         final Intent intent = getIntent();
+        final String containershipId = intent.getStringExtra("containership_id");
 
-        final String containership_id = intent.getStringExtra("containership_id");
-        this.containership = ContainershipStore.get(containership_id);
+        containership = ContainershipStore.get(containershipId);
     }
 
     private void drawUI() {
 
-        this.parseIntent();
+        parseIntent();
 
-        final List<Container> containers = this.containership.getContainers();
+        final List<Container> containers = containership.getContainers();
+
         final ListView listView = findViewById(R.id.container_list_view);
         listView.setAdapter(new ContainerAdapter(this, containers));
         listView.setEmptyView(findViewById(R.id.containers_empty));
@@ -63,9 +64,9 @@ public class EditContainersActivity extends AppCompatActivity {
                 }
             }
 
-            ContainershipMoveContainerAdapter adapter = new ContainershipMoveContainerAdapter(this, availableContainerships, containership, container);
+            final ContainershipMoveContainerAdapter adapter = new ContainershipMoveContainerAdapter(this, availableContainerships, containership, container);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder
                 .setTitle("Move container to")
                 .setAdapter(adapter, (dialog, which) -> {
@@ -89,13 +90,11 @@ public class EditContainersActivity extends AppCompatActivity {
                         return;
                     }
 
-                    Map<String, Object> data = container.getData();
-
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    db
+                    FirebaseFirestore
+                        .getInstance()
                         .collection(Container.COLLECTION_NAME)
                         .document(container.getId())
-                        .update(data)
+                        .update(container.getData())
                         .addOnSuccessListener(aVoid -> {
                             Toast.makeText(this, "Container moved!", Toast.LENGTH_SHORT).show();
 
@@ -133,7 +132,7 @@ public class EditContainersActivity extends AppCompatActivity {
 
             case R.id.action_edit_container_add:
 
-                List<Container> containers = ContainerStore.allWithoutContainership();
+                final List<Container> containers = ContainerStore.allWithoutContainership();
 
                 if (containers.size() == 0) {
                     Toast.makeText(this, "No container available.", Toast.LENGTH_SHORT).show();
@@ -141,28 +140,31 @@ public class EditContainersActivity extends AppCompatActivity {
                     return true;
                 }
 
-                ContainerAdapter adapter = new ContainerAdapter(this, containers);
+                final ContainerAdapter adapter = new ContainerAdapter(this, containers);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder
                     .setTitle("Add container")
                     .setAdapter(adapter, (dialog, which) -> {
                         final Container container = containers.get(which);
-                        container.setContainership(containership);
 
-                        Map<String, Object> data = container.getData();
+                        if (!containership.addContainer(container)) {
+                            Toast.makeText(this, "Failed to add container.", Toast.LENGTH_SHORT).show();
 
-                        FirebaseFirestore db = FirebaseFirestore.getInstance();
-                        db
+                            return;
+                        }
+
+                        FirebaseFirestore
+                            .getInstance()
                             .collection(Container.COLLECTION_NAME)
                             .document(container.getId())
-                            .update(data)
+                            .update(container.getData())
                             .addOnSuccessListener(aVoid -> {
                                 Toast.makeText(this, "Container added!", Toast.LENGTH_SHORT).show();
+
+                                drawUI();
                             })
-                            .addOnFailureListener(e -> {
-                                Toast.makeText(this, "Failed to add container.", Toast.LENGTH_SHORT).show();
-                            });
+                            .addOnFailureListener(e -> Toast.makeText(this, "Failed to add container.", Toast.LENGTH_SHORT).show());
                     });
 
                 builder.create().show();
