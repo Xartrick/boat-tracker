@@ -27,6 +27,14 @@ public class MainActivity extends AppCompatActivity {
         getData();
     }
 
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+
+        drawUI();
+    }
+
     private void getData() {
 
         PortStore
@@ -101,15 +109,21 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.action_refresh:
 
-                this.getData();
+                getData();
 
                 return true;
 
             case R.id.action_login:
 
-                Intent sign_in = new Intent(getApplicationContext(), SignInActivity.class);
+                final Intent signInIntent = new Intent(getApplicationContext(), SignInActivity.class);
+                startActivity(signInIntent);
 
-                startActivity(sign_in);
+                return true;
+
+            case R.id.action_global_map:
+
+                final Intent mapIntent = new Intent(getApplicationContext(), GlobalMapActivity.class);
+                startActivity(mapIntent);
 
                 return true;
         }

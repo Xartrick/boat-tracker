@@ -17,8 +17,7 @@ public interface IDocument {
      * @return Document reference
      */
     default DocumentReference getDocumentReference() {
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        return db.document(this.getDocumentPath());
+        return FirebaseFirestore.getInstance().document(getDocumentPath());
     }
 }

@@ -32,11 +32,14 @@
             android:name=".SignInActivity"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:name=".GlobalMapActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".ContainershipActivity"
             android:label="@string/title_activity_containership"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".MapActivity"
+            android:name=".ContainershipMapActivity"
             android:label="@string/title_activity_map"
             android:parentActivityName=".ContainershipActivity" />
         <activity

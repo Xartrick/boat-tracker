@@ -14,9 +14,10 @@ import java.util.concurrent.CompletableFuture;
 
 public class ContainerStore {
 
-    private static List<Container> containers = new ArrayList<>();
+    private final static List<Container> containers = new ArrayList<>();
 
     public static Container get(String id) {
+
         for (Container container : containers) {
             if (container.getId().equals(id)) {
                 return container;
@@ -27,10 +28,12 @@ public class ContainerStore {
     }
 
     public static List<Container> all() {
+
         return containers;
     }
 
     public static List<Container> allWithoutContainership() {
+
         final List<Container> containers = new ArrayList<>();
         final List<Container> containership_containers = ContainerStore.all();
 
@@ -46,10 +49,11 @@ public class ContainerStore {
     }
 
     public static List<Container> allOfContainership(Containership containership) {
-        final List<Container> containers = new ArrayList<>();
-        final List<Container> containership_containers = ContainerStore.all();
 
-        for (Container container : containership_containers) {
+        final List<Container> containers = new ArrayList<>();
+        final List<Container> containershipContainers = ContainerStore.all();
+
+        for (Container container : containershipContainers) {
             final Containership c = container.getContainership();
 
             if (c == null) {
@@ -65,11 +69,11 @@ public class ContainerStore {
     }
 
     public static CompletableFuture<Void> fetch() {
+
         final CompletableFuture<Void> promise = new CompletableFuture<>();
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db
+        FirebaseFirestore
+            .getInstance()
             .collection(Container.COLLECTION_NAME)
             .get()
             .addOnCompleteListener(task -> {
@@ -91,6 +95,7 @@ public class ContainerStore {
     }
 
     private static void parse(DocumentSnapshot document) {
+
         final String id = document.getId();
 
         final int length = Objects.requireNonNull(document.getLong("length")).intValue();

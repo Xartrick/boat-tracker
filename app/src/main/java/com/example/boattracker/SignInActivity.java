@@ -23,8 +23,6 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private static final String TAG = "SignInActivity";
     private GoogleApiClient mGoogleApiClient;
     private TextView statusTextView;
-    private SignInButton mSignInButton;
-    private Button mSignOutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +38,12 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         mGoogleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this).addApi(Auth.GOOGLE_SIGN_IN_API, gso).build();
 
         statusTextView = findViewById(R.id.status_textview);
-        mSignInButton = findViewById(R.id.sign_in_button_google);
-        mSignInButton.setOnClickListener(this);
-        mSignOutButton = findViewById(R.id.sign_out_button);
-        mSignOutButton.setOnClickListener(this);
+
+        SignInButton signInButton = findViewById(R.id.sign_in_button_google);
+        signInButton.setOnClickListener(this);
+
+        Button signOutButton = findViewById(R.id.sign_out_button);
+        signOutButton.setOnClickListener(this);
     }
 
     public void signIn() {
@@ -66,12 +66,18 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         if (result.isSuccess()) {
             GoogleSignInAccount account = result.getSignInAccount();
-            statusTextView.setText("Hello " + account.getDisplayName() + " !");
+            if (account == null) {
+                statusTextView.setText(getString(R.string.error_authenticated_user));
+                return;
+            }
+
+            String message = "Hello " + account.getDisplayName() + "!";
+            statusTextView.setText(message);
         }
     }
 
     private void signOut() {
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(status -> statusTextView.setText("Signed out"));
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(status -> statusTextView.setText(getString(R.string.user_signed_out)));
     }
 
     @Override

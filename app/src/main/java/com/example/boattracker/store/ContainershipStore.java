@@ -16,9 +16,10 @@ import java.util.concurrent.CompletableFuture;
 
 public class ContainershipStore {
 
-    private static List<Containership> containerships = new ArrayList<>();
+    private final static List<Containership> containerships = new ArrayList<>();
 
     public static Containership get(String id) {
+
         for (Containership containership : containerships) {
             if (containership.getId().equals(id)) {
                 return containership;
@@ -29,15 +30,16 @@ public class ContainershipStore {
     }
 
     public static List<Containership> all() {
+
         return containerships;
     }
 
     public static CompletableFuture<Void> fetch() {
+
         final CompletableFuture<Void> promise = new CompletableFuture<>();
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db
+        FirebaseFirestore
+            .getInstance()
             .collection(Containership.COLLECTION_NAME)
             .get()
             .addOnCompleteListener(task -> {
@@ -59,17 +61,23 @@ public class ContainershipStore {
     }
 
     public static CompletableFuture<Void> fetch(String id) {
+
         final CompletableFuture<Void> promise = new CompletableFuture<>();
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db
+        FirebaseFirestore
+            .getInstance()
             .collection(Containership.COLLECTION_NAME)
             .document(id)
             .get()
             .addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
+                    if (document == null) {
+                        promise.completeExceptionally(new RuntimeException("Document " + id + " is null"));
+
+                        return;
+                    }
+
                     parse(document);
 
                     promise.complete(null);
@@ -87,26 +95,26 @@ public class ContainershipStore {
         final String id = document.getId();
 
         final String name = document.getString("name");
-        final String captain_name = document.getString("captainName");
+        final String captainName = document.getString("captainName");
         final GeoPoint position = document.getGeoPoint("position");
 
-        final DocumentReference port_reference = document.getDocumentReference("port");
-        final Port port = PortStore.get(Objects.requireNonNull(port_reference).getId());
+        final DocumentReference portReference = document.getDocumentReference("port");
+        final Port port = PortStore.get(Objects.requireNonNull(portReference).getId());
 
-        final DocumentReference containership_type_reference = document.getDocumentReference("type");
-        final ContainershipType type = ContainershipTypeStore.get(Objects.requireNonNull(containership_type_reference).getId());
+        final DocumentReference typeReference = document.getDocumentReference("type");
+        final ContainershipType type = ContainershipTypeStore.get(Objects.requireNonNull(typeReference).getId());
 
-        Containership containership = new Containership(
+        final Containership containership = new Containership(
             id,
             name,
-            captain_name,
+            captainName,
             Objects.requireNonNull(position).getLatitude(),
             Objects.requireNonNull(position).getLongitude(),
             port,
             type
         );
 
-        Containership old = get(id);
+        final Containership old = get(id);
         if (old != null) {
             old.replace(containership);
 

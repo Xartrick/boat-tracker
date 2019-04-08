@@ -12,6 +12,7 @@ public interface HasName extends IDocument {
      * @return Name
      */
     default String getName() {
+
         return (String) get(NAME);
     }
 
@@ -21,6 +22,7 @@ public interface HasName extends IDocument {
      * @param name Name
      */
     default void setName(String name) {
+
         put(NAME, name);
     }
 }

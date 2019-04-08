@@ -8,6 +8,11 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/action_global_map"
+        android:title="@string/action_global_map"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_login"
         android:title="@string/action_login"
         app:showAsAction="never" />

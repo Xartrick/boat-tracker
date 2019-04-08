@@ -9,13 +9,14 @@ import java.util.Map;
 
 public class Container extends BaseDocument implements HasId, HasVolume {
 
-    public static String COLLECTION_NAME = "containers";
+    public final static String COLLECTION_NAME = "containers";
 
     private Containership containership;
 
     public Container(String id, int length, int height, int width) {
-        this.setId(id);
-        this.setVolume(length, height, width);
+
+        setId(id);
+        setVolume(length, height, width);
     }
 
     /**
@@ -24,15 +25,17 @@ public class Container extends BaseDocument implements HasId, HasVolume {
      * @return Document path
      */
     public static String getDocumentPath(String id) {
+
         return "/" + COLLECTION_NAME + "/" + id;
     }
 
     public Map<String, Object> getData() {
-        Map<String, Object> data = new HashMap<>();
 
-        data.put("length", this.getLength());
-        data.put("width", this.getWidth());
-        data.put("height", this.getHeight());
+        final Map<String, Object> data = new HashMap<>();
+
+        data.put("length", getLength());
+        data.put("width", getWidth());
+        data.put("height", getHeight());
 
         if (containership != null) {
             data.put("containership", containership.getDocumentReference());
@@ -42,10 +45,12 @@ public class Container extends BaseDocument implements HasId, HasVolume {
     }
 
     public Containership getContainership() {
-        return this.containership;
+
+        return containership;
     }
 
     public void setContainership(Containership containership) {
+
         this.containership = containership;
     }
 
@@ -55,6 +60,7 @@ public class Container extends BaseDocument implements HasId, HasVolume {
      * @return Document path
      */
     public String getDocumentPath() {
-        return getDocumentPath(this.getId());
+
+        return getDocumentPath(getId());
     }
 }

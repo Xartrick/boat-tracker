@@ -12,6 +12,7 @@ public interface HasId extends IDocument {
      * @return Id
      */
     default String getId() {
+
         return (String) get(ID);
     }
 
@@ -21,6 +22,7 @@ public interface HasId extends IDocument {
      * @param id Id
      */
     default void setId(String id) {
+
         put(ID, id);
     }
 
@@ -31,6 +33,7 @@ public interface HasId extends IDocument {
      * @return True if model is model, False otherwise
      */
     default boolean is(HasId model) {
-        return this.getId().equals(model.getId());
+
+        return getId().equals(model.getId());
     }
 }

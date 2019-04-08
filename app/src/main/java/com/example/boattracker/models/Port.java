@@ -7,12 +7,13 @@ import com.example.boattracker.models.traits.HasPosition;
 
 public class Port extends BaseDocument implements HasId, HasName, HasPosition {
 
-    public static String COLLECTION_NAME = "ports";
+    public final static String COLLECTION_NAME = "ports";
 
     public Port(String id, String name, double latitude, double longitude) {
-        this.setId(id);
-        this.setName(name);
-        this.setPosition(latitude, longitude);
+
+        setId(id);
+        setName(name);
+        setPosition(latitude, longitude);
     }
 
     /**
@@ -21,6 +22,7 @@ public class Port extends BaseDocument implements HasId, HasName, HasPosition {
      * @return Document path
      */
     public static String getDocumentPath(String id) {
+
         return "/" + COLLECTION_NAME + "/" + id;
     }
 
@@ -30,6 +32,7 @@ public class Port extends BaseDocument implements HasId, HasName, HasPosition {
      * @return Document path
      */
     public String getDocumentPath() {
-        return getDocumentPath(this.getId());
+
+        return getDocumentPath(getId());
     }
 }

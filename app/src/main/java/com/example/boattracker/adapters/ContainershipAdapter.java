@@ -12,45 +12,63 @@ import com.example.boattracker.models.Containership;
 
 import java.util.List;
 
+class ContainershipViewHolder {
+    TextView shipNameView;
+    TextView shipCaptainView;
+}
+
 public class ContainershipAdapter extends BaseAdapter {
 
-    private Context context;
-    private List<Containership> containerships;
-    private LayoutInflater layoutInflater;
+    private final List<Containership> containerships;
+    private final LayoutInflater layoutInflater;
 
     public ContainershipAdapter(Context context, List<Containership> containerships) {
-        this.context = context;
+
         this.containerships = containerships;
-        this.layoutInflater = LayoutInflater.from(context);
+
+        layoutInflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
+
         return containerships.size();
     }
 
     @Override
     public Object getItem(int position) {
+
         return containerships.get(position);
     }
 
     @Override
     public long getItemId(int position) {
+
         return 0;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        convertView = layoutInflater.inflate(R.layout.adapter_containership, null);
+        final ContainershipViewHolder viewHolder;
 
-        Containership containership = (Containership) getItem(position);
+        if (convertView == null) {
+            convertView = layoutInflater.inflate(R.layout.adapter_containership, parent, false);
 
-        TextView shipNameView = convertView.findViewById(R.id.containership_name);
-        shipNameView.setText(containership.getName());
+            viewHolder = new ContainershipViewHolder();
+            viewHolder.shipNameView = convertView.findViewById(R.id.containership_name);
+            viewHolder.shipCaptainView = convertView.findViewById(R.id.containership_type_name);
 
-        TextView shipCaptainView = convertView.findViewById(R.id.containership_type_name);
-        shipCaptainView.setText(containership.getType().getName());
+            convertView.setTag(viewHolder);
+        }
+        else {
+            viewHolder = (ContainershipViewHolder) convertView.getTag();
+        }
+
+        final Containership containership = (Containership) getItem(position);
+
+        viewHolder.shipNameView.setText(containership.getName());
+        viewHolder.shipCaptainView.setText(containership.getType().getName());
 
         return convertView;
     }
