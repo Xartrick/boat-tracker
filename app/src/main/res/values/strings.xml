@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">BoatTracker</string>
+    <string name="title_activity_map">Map</string>
+    <string name="title_activity_containership">Containership</string>
+    <string name="title_activity_containership_edit">Edit containership</string>
+    <string name="title_activity_containers_edit">Edit containers</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_login">Login</string>
+    <string name="action_containership_distance">Calculate distance</string>
+    <string name="action_containership_map">Show map</string>
+    <string name="action_save">Save</string>
+    <string name="action_edit_containers">Edit containers</string>
+    <string name="action_add">Add</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_edit_containership">Edit containership</string>
+    <string name="error_authenticated_user">Cannot get authenticated user</string>
+    <string name="user_signed_out">Signed out</string>
+    <string name="action_global_map">Show map</string>
+</resources>
