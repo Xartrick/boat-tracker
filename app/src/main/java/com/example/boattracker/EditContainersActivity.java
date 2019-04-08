@@ -59,9 +59,25 @@ public class EditContainersActivity extends AppCompatActivity {
 
             final List<Containership> containerships = ContainershipStore.all();
             for (Containership c : containerships) {
-                if (!container.getContainership().is(c)) {
-                    availableContainerships.add(c);
+                if (container.getContainership().is(c)) {
+                    continue;
                 }
+
+                if (!containership.isContainershipCloseEnough(c)) {
+                    continue;
+                }
+
+                if (!containership.canContainContainer(container)) {
+                    continue;
+                }
+
+                availableContainerships.add(c);
+            }
+
+            if (availableContainerships.size() == 0) {
+                Toast.makeText(this, "No available containership.", Toast.LENGTH_SHORT).show();
+
+                return;
             }
 
             final ContainershipMoveContainerAdapter adapter = new ContainershipMoveContainerAdapter(this, availableContainerships, containership, container);
